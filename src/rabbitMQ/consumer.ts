@@ -5,8 +5,9 @@ export default class Consumer {
 
     async consumeMessages(){
         console.log('Ready to consume messages....Now');
-        this.channel.consume(this.replyQueueName,
-            (message: ConsumeMessage) => {
+        this.channel.consume(
+            this.replyQueueName,
+            async (message: ConsumeMessage) => {
             console.log('the reply is ...',
             JSON.parse(message.content.toString()));
         },
