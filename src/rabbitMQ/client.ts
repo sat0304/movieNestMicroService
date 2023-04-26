@@ -34,13 +34,13 @@ class RabbitMQClient {
             this.consumerChannel = await this.connection.createChannel();
 
             // const {queue: replyQueueName} = await this.consumerChannel.assertQueue('');
-            const {queue: replyQueueName} = await this.consumerChannel.assertQueue(
-                'conectionQueueOfMovies',
+            const {queue: rpcQueueName} = await this.consumerChannel.assertQueue(
+                config.rabbitMQ.queues.serverMovieQueue,
                 // {exclusive: true}
                 );
 
-            this.consumer = new Consumer(this.consumerChannel, replyQueueName);
-            this.producer = new Producer(this.producerChannel, replyQueueName);
+            this.consumer = new Consumer(this.consumerChannel, rpcQueueName);
+            this.producer = new Producer(this.producerChannel);
 
             this.consumer.consumeMessages();
 
@@ -50,11 +50,17 @@ class RabbitMQClient {
             console.log('rabbitMQ error ...', error);
         }
     }
-    async produce(data: any) {
+    async produce(
+        data: any,
+        correlationId: string,
+        replyToQueue: string,) {
         if (!this.isInitialized) {
             await this.initialize();
         }
-        return await this.producer.produceMessages(data);
+        return await this.producer.produceMessages(
+            data,
+            correlationId,
+            replyToQueue,);
     }
 }
 

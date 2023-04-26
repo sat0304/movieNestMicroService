@@ -1,25 +1,21 @@
 import { Channel} from "amqplib";
-import config from "../config";
-// import { randomUUID } from "crypto";
 
 export default class Producer {
-    constructor( private channel: Channel, private replyQueueName: string ){}
+    constructor( private channel: Channel){}
 
-    async produceMessages(data: any){
-        // const uuid = randomUUID();
-        const uuid = 'conectionQueueOfMovies';
-        console.log('the correlation ID is ...', uuid);
+    async produceMessages(
+        data: any,
+        correlationId: string,
+        replyToQueue: string)
+        {
+        console.log('the responding with data ...', data)
         this.channel.sendToQueue(
-            config.rabbitMQ.queues.rpcQueue,
-            Buffer.from(JSON.stringify(data)), {
-                replyTo: this.replyQueueName,
-                correlationId: uuid,
-                headers: {
-                    function: data.operation
-                }
+            replyToQueue,
+            Buffer.from(JSON.stringify(data)), 
+            {
+                correlationId: correlationId,
             }
         );
-        // wait for response
-        // await
+
     }
 }
