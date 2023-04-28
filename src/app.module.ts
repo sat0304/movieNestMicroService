@@ -19,6 +19,7 @@ import { CountryMovie } from './movies/countryMovie.model';
 import { DubActorMovie } from './movies/dubActorMovie.model';
 import { ViewsMovie } from './movies/viewsMovie.model';
 import { Movie } from './movies/movies.model';
+import MessageHandler from './messageHandler';
 
 @Module({
   imports: [

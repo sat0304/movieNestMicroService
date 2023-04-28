@@ -3,9 +3,10 @@ import { GenresService } from './genres.service';
 import { Genre } from './genres.model';
 import { Movie } from 'src/movies/movies.model';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { GenresController } from './genres.controller';
 
 @Module({
-  controllers: [],
+  controllers: [GenresController],
   providers: [GenresService],
   imports: [SequelizeModule.forFeature([Genre, Movie])]
 })

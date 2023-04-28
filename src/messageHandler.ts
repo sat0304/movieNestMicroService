@@ -1,11 +1,15 @@
+import { GenresController } from "./genres/genres.controller";
+import { Genre } from "./genres/genres.model";
 import { GenresService } from "./genres/genres.service"
 import rabbitClient from "./rabbitMQ/client"
-const genresService = new GenresService;
+
+const genresService = new GenresService(Genre);
+const genresController = new GenresController(genresService);
 
 export default class MessageHandler{
 
     static async handle(
-        operation: string,
+        routingKey: string,
         data: any,
         correlationId: string,
         replyTo: string,
@@ -13,20 +17,21 @@ export default class MessageHandler{
         
         let response = {};
 
-        const {num1, num2} = data;
+        const {enName, description} = data;
 
-        console.log('the operation is ', operation);
+        console.log('the routingKey is ', routingKey);
 
-        switch (operation) {
-            case 'multiply': response = genresService.getGenres();
+        switch (routingKey) {
+            case 'getMovie': response = genresService.getGenreByValue('Comedy');
             break;
-            case 'sum': response = num1 + num2;
+            case 'postMovie': (genresController.create(
+                {enName, 
+                description}),
+                response = 'genre is created');
             break;
             default: response = 0;
             break;
         }
-
         await rabbitClient.produce(response, correlationId, replyTo)
-
     }
 }

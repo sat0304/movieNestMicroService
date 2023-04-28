@@ -1,8 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { Genre } from './genres.model';
+import { CreateGenreDto } from './dto/createGenre';
 
 @Injectable()
 export class GenresService {
-    getGenres() {
+
+    constructor(@InjectModel(Genre) private genreRepo: typeof Genre) {}
+
+    async createGenre(dto: CreateGenreDto) {
+        const genre = await this.genreRepo.create(dto);
+        return genre;
+    }
+
+    async getGenreByValue( value: string ) {
+        const genre = await this.genreRepo.findOne({where: { value }});
+        return genre;
+    }
+
+
+    async getGenres() {
         return {enName: "Comedy", description: "Комедия"};
     }
 }
