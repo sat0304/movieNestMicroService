@@ -18,8 +18,10 @@ export class GenresService {
         return genre;
     }
 
+    async getAllGenres() {
+        const genres = await this.genreRepo.findAll();
+        // const genres = await this.genreRepo.findAll({include: { all: true}});
+        return genres;
 
-    async getGenres() {
-        return {enName: "Comedy", description: "Комедия"};
     }
 }

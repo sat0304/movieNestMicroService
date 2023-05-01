@@ -3,7 +3,7 @@ import { Column,
          HasMany, 
          Model, 
          Table } from "sequelize-typescript";
-import { Movie } from "src/movies/movies.model";
+import { Movie } from "../movies/movies.model";
 
 
 @Table({ tableName: 'genre', createdAt: false, updatedAt: false })
