@@ -17,8 +17,8 @@ export default class MessageHandler{
         
         let response = {};
 
-        const {enName, description} = data;
-        const {value} = data;
+        const {genre, genreEng} = data;
+        const {id} = data;
 
         console.log('the routingKey is ', routingKey);
 
@@ -28,16 +28,16 @@ export default class MessageHandler{
             response = await genresController.getAll();
             break;
             case 'getGenre':
-            response = await genresController.getByValue(value);
+            response = await genresController.getById(id);
             break;
             case 'postMovie': 
                 // await genresController.create({enName, description});
                 response = 'The new movie was created';
             break;
             case 'postGenre': 
-            console.log(enName, description);
-            // await genresController.create({enName, description});
-            response = enName;
+            console.log(genre, genreEng);
+            await genresController.create({genre, genreEng});
+            response = genre;
         break;
             default: response = 0;
             break;

@@ -13,8 +13,8 @@ export class GenresService {
         return genre;
     }
 
-    async getGenreByValue( value: string ) {
-        const genre = await this.genreRepo.findOne({where: { value }});
+    async getGenreById( id: string ) {
+        const genre = await this.genreRepo.findOne({where: { id }});
         return genre;
     }
 

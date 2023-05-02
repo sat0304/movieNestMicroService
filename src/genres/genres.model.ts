@@ -16,10 +16,10 @@ export class Genre extends Model<Genre> {
     id: number;
 
     @Column({ type: DataType.STRING, allowNull: false })
-    enName: string;
+    genreEng: string;
 
     @Column({ type: DataType.STRING, allowNull: false })
-    description: string;
+    genre: string;
 
     @HasMany( () => Movie )
     movies: Movie[];

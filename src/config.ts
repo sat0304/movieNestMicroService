@@ -7,8 +7,8 @@ export default {
             clientPersonQueue: 'conectionQueueOfPersons',
             serverMovieQueue: 'queueMovies',
             clientMovieQueue: 'conectionQueueOfMovies',
-            serverCommentQueue: 'queueComments',
-            clientCommentQueue: 'conectionQueueOfComments',
+            serverReviewQueue: 'queueReviews',
+            clientReviewQueue: 'conectionQueueOfReviews',
         },
     },
 };
