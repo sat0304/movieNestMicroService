@@ -1,9 +1,10 @@
-import { Column, 
-         DataType, 
-         HasMany, 
-         Model, 
+import { BelongsToMany,
+         Column,
+         DataType,
+         Model,
          Table } from "sequelize-typescript";
 import { Movie } from "../movies/movies.model";
+import { GenreMovie } from "../movies/genreMovie.model";
 
 
 @Table({ tableName: 'genre', createdAt: false, updatedAt: false })
@@ -16,11 +17,11 @@ export class Genre extends Model<Genre> {
     id: number;
 
     @Column({ type: DataType.STRING, allowNull: false })
-    genreEng: string;
-
-    @Column({ type: DataType.STRING, allowNull: false })
     genre: string;
 
-    @HasMany( () => Movie )
+    @Column({ type: DataType.STRING})
+    genreEng: string;
+
+    @BelongsToMany( () => Movie, () => GenreMovie)
     movies: Movie[];
 }

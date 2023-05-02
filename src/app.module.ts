@@ -4,22 +4,18 @@ import { MoviesModule } from './movies/movies.module';
 import { ConfigModule } from '@nestjs/config';
 import { GenresModule } from './genres/genres.module';
 import { PersonsModule } from './persons/persons.module';
-import { ActorsModule } from './actors/actors.module';
-import { DubActorsModule } from './dub-actors/dub-actors.module';
+import { DetailsModule } from './details/details.module';
 import { CountriesModule } from './countries/countries.module';
-import { ViewsModule } from './views/views.module';
 import { Genre } from './genres/genres.model';
 import { Person } from './persons/persons.model';
-import { Actor } from './actors/actors.model';
-import { DubActor } from './dub-actors/dub-actors.model';
+import { Detail } from './details/details.model';
 import { Country } from './countries/countries.model';
-import { View } from './views/views.model';
-import { ActorMovie } from './movies/actorMovie.model';
 import { CountryMovie } from './movies/countryMovie.model';
-import { DubActorMovie } from './movies/dubActorMovie.model';
-import { ViewsMovie } from './movies/viewsMovie.model';
+import { DetailMovie } from './movies/detailsMovie.model';
 import { Movie } from './movies/movies.model';
-import MessageHandler from './messageHandler';
+import { GenreMovie } from './movies/genreMovie.model';
+import { PersonMovie } from './movies/personMovie.model';
+import { MovieMovie } from './movies/movieMovie.model';
 
 @Module({
   imports: [
@@ -33,26 +29,24 @@ import MessageHandler from './messageHandler';
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    models: [Actor, 
-             Country, 
-             DubActor, 
+    models: [Country, 
+             Detail, 
              Genre,
              Movie,
-             Person, 
-             View,
-             ActorMovie,
+             Person,
              CountryMovie,
-             DubActorMovie,
-             ViewsMovie],
+             DetailMovie,
+             GenreMovie,
+             MovieMovie,
+             PersonMovie,
+            ],
     autoLoadModels: true,
   }),
     MoviesModule,
     GenresModule,
     PersonsModule,
-    ActorsModule,
-    DubActorsModule,
+    DetailsModule,
     CountriesModule,
-    ViewsModule, 
 ],
   controllers: [],
   providers: [],

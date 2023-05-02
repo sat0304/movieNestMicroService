@@ -13,10 +13,10 @@ export class Country extends Model<Country> {
     id: number;
 
     @Column({ type: DataType.STRING, allowNull: false })
-    description: string;
+    country: string;
     
     @Column({ type: DataType.STRING, allowNull: false })
-    code: string;
+    countryEng: string;
 
     @BelongsToMany( () => Movie, () => CountryMovie)
     movies: Movie[];

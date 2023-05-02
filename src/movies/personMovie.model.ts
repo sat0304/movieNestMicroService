@@ -1,10 +1,10 @@
 import { Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { Movie } from "./movies.model";
-import { Actor } from "../actors/actors.model";
+import { Person } from "../persons/persons.model";
 
 
-@Table({tableName: 'actor_film', createdAt: false, updatedAt: false})
-export class ActorMovie extends Model<ActorMovie> {
+@Table({tableName: 'person_film', createdAt: false, updatedAt: false})
+export class PersonMovie extends Model<PersonMovie> {
 
     @Column({ type: DataType.INTEGER,
             unique: true,
@@ -12,9 +12,9 @@ export class ActorMovie extends Model<ActorMovie> {
             primaryKey: true })
     id: number;
 
-    @ForeignKey(() => Actor)
+    @ForeignKey(() => Person)
     @Column({type: DataType.INTEGER})
-    actor_id: number;
+    person_id: number;
     
     @ForeignKey(() => Movie)
     @Column({type: DataType.INTEGER})

@@ -1,5 +1,6 @@
-import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
 import { Movie } from "../movies/movies.model";
+import { PersonMovie } from "../movies/personMovie.model";
 
 
 @Table({tableName: 'person', createdAt: false, updatedAt: false})
@@ -11,30 +12,24 @@ export class Person extends Model<Person> {
             primaryKey: true })
     id: number;
 
-    @Column({ type: DataType.STRING, allowNull: false })
-    firstName: string;
+    @Column({ type: DataType.STRING})
+    name: string;
     
-    @Column({ type: DataType.STRING, allowNull: false })
-    secondName: string;
-
-    @Column({ type: DataType.STRING, allowNull: false })
-    enName: string;
+    @Column({ type: DataType.STRING})
+    nameEng: string;
 
     @Column({ type: DataType.STRING, allowNull: false })
     occupation: string;
 
-    @Column({ type: DataType.STRING, allowNull: false })
-    birthDate: string;
-
-    @Column({ type: DataType.STRING })
-    deathDate: string;
+    @Column({ type: DataType.STRING})
+    occupationEng: string;
 
     @Column({ type: DataType.INTEGER, allowNull: false })
-    age: number;
+    kinopoiskId: number;
 
     @Column({ type: DataType.STRING })
-    photo: string;
+    link: string;
 
-    @HasMany(() => Movie)
+    @BelongsToMany( () => Movie, () => PersonMovie)
     movies: Movie[];
 }

@@ -1,10 +1,12 @@
 import { GenresController } from "./genres/genres.controller";
 import { Genre } from "./genres/genres.model";
 import { GenresService } from "./genres/genres.service";
+import { MovieList } from "./jsonParser";
 import rabbitClient from "./rabbitMQ/client";
 
 const genresService = new GenresService(Genre);
 const genresController = new GenresController(genresService);
+const movieList = new MovieList();
 
 export default class MessageHandler{
 
@@ -18,10 +20,13 @@ export default class MessageHandler{
         let response = {};
 
         const {genre, genreEng} = data;
+        // const {entityJSON:{name, actors}} = data;
         const {id} = data;
+        const movieName = await movieList.createMovieName(data);
+        const actorNames = await movieList.createActorList(data);
 
-        console.log('the routingKey is ', routingKey);
-
+        console.log('the movie name from class is ', movieName);
+        console.log('the cast is ', actorNames);
 
         switch (routingKey) {
             case 'getGenres':

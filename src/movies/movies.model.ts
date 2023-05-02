@@ -1,5 +1,4 @@
-import { BelongsTo, 
-        BelongsToMany,
+import {BelongsToMany,
         Column, 
         DataType, 
         ForeignKey, 
@@ -8,13 +7,12 @@ import { BelongsTo,
 import { Country } from "../countries/countries.model";
 import { Genre } from "../genres/genres.model";
 import { Person } from "../persons/persons.model";
-import { Actor } from "../actors/actors.model";
-import { DubActor } from "../dub-actors/dub-actors.model";
-import { View } from "../views/views.model";
-import { ActorMovie } from "./actorMovie.model";
-import { ViewsMovie } from "./viewsMovie.model";
+import { Detail } from "../details/details.model";
 import { CountryMovie } from "./countryMovie.model";
-import { DubActorMovie } from "./dubActorMovie.model";
+import { DetailMovie } from "./detailsMovie.model";
+import { GenreMovie } from "./genreMovie.model";
+import { PersonMovie } from "./personMovie.model";
+import { MovieMovie } from "./movieMovie.model";
 
 
 @Table({tableName: 'film', createdAt: false, updatedAt: false})
@@ -27,77 +25,74 @@ export class Movie extends Model<Movie> {
     id: number;
 
     @Column({ type: DataType.STRING, allowNull: false })
-    movieName: string;
+    name: string;
 
-    @Column({ type: DataType.STRING, allowNull: false })
-    enName: string;
-    
-    @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 1 })
-    duration: number;
+    @Column({ type: DataType.STRING})
+    originalName: string;
+
+    @Column({ type: DataType.STRING})
+    description: string;
+
+    @ForeignKey(() => Person)
+    @Column({type: DataType.INTEGER})
+    actor_id: number;
+
+    @BelongsToMany( () => Person, () => PersonMovie)
+    actors: Person[];
 
     @Column({ type: DataType.STRING})
     poster: string;
+    
+    @Column({ type: DataType.STRING})
+    trailerLink: string;
 
-    @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 1895 })
-    releaseYear: number;
+    @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 1895})
+    year: number;
 
-    @ForeignKey(() => Country)
-    @Column({type: DataType.INTEGER})
-    country_id: number;
+    @Column({ type: DataType.STRING})
+    movieLength: string;
 
-    @BelongsTo(() => Country)
-    country: Country;
+    @Column({ type: DataType.STRING})
+    ageRating: string;
 
     @ForeignKey(() => Genre)
     @Column({type: DataType.INTEGER})
     genre_id: number;
 
-    @BelongsTo(() => Genre)
-    genre: Genre;
+    @BelongsToMany( () => Genre, () => GenreMovie)
+    genres: Genre[];
 
-    @ForeignKey(() => Person)
+    @ForeignKey(() => Country)
     @Column({type: DataType.INTEGER})
-    director_id: number;
-
-    @BelongsTo(() => Person)
-    director: Person;
-    
-    @ForeignKey(() => Person)
-    @Column({type: DataType.INTEGER})
-    writer_id: number;
-
-    @BelongsTo(() => Person)
-    writer: Person;
-
-    @ForeignKey(() => Person)
-    @Column({type: DataType.INTEGER})
-    music_id: number;
-
-    @BelongsTo(() => Person)
-    music: Person;
-
-    @ForeignKey(() => Person)
-    @Column({type: DataType.INTEGER})
-    producer_id: number;
-
-    @BelongsTo(() => Person)
-    producer: Person;
-
-    @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 1 })
-    budget: number;
-
-    @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 1 })
-    rating: number;
-
-    @BelongsToMany( () => Actor, () => ActorMovie)
-    actors: Actor[];
-
-    @BelongsToMany( () => DubActor, () => DubActorMovie)
-    dubActors: DubActor[];
-
-    @BelongsToMany( () => View, () => ViewsMovie)
-    views: View[];
+    country_id: number;
 
     @BelongsToMany( () => Country, () => CountryMovie)
     countries: Country[];
+
+    @Column({ type: DataType.STRING})
+    rate: string;
+
+    @ForeignKey(() => Detail)
+    @Column({type: DataType.INTEGER})
+    detail_id: number; 
+
+    @BelongsToMany( () => Detail, () => DetailMovie)
+    details: Detail[];
+
+    @ForeignKey(() => Person)
+    @Column({type: DataType.INTEGER})
+    person_id: number;
+
+    @BelongsToMany( () => Person, () => PersonMovie)
+    persons: Person[];
+
+    @ForeignKey(() => Movie)
+    @Column({type: DataType.INTEGER})
+    movie_id: number;
+
+    @BelongsToMany( () => Movie, () => MovieMovie)
+    simularFilms: Movie[]
+
+    @Column({ type: DataType.INTEGER, allowNull: false })
+    kinopoiskId: number;   
 }
