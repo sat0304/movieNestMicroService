@@ -1,3 +1,9 @@
+import { GenresController } from "./genres/genres.controller";
+import { Genre } from "./genres/genres.model";
+import { GenresService } from "./genres/genres.service";
+
+const genresService = new GenresService(Genre);
+const genresController = new GenresController(genresService);
 
 export class MovieList {
   movieName: any;
@@ -26,6 +32,21 @@ export class MovieList {
 
   movieRate: any;
 
+  detailList = [];
+  detailName = [];
+  detailValue = [];
+
+  personOccupation = [];
+  personId = [];
+
+  similarList = [];
+  similarName = [];
+  similarUrl = [];
+  similarKinopoiskId = [];
+
+  movieKinopoiskId: any;
+
+
     async createMovieFeatures(movieList: any) {
         this.movieName = movieList.entityJSON.name;
         this.moviePoster = movieList.entityJSON.poster;
@@ -36,6 +57,7 @@ export class MovieList {
         this.movieLength = movieList.entityJSON.movieLength;
         this.movieAgeRating = movieList.entityJSON.ageRating;
         this.movieRate = movieList.entityJSON.rate.kinopoisk;
+        this.movieKinopoiskId = movieList.entityJSON.kinopoiskId;
         return  (
           this.movieName,
           this.moviePoster,
@@ -45,7 +67,8 @@ export class MovieList {
           this.movieYear,
           this.movieLength,
           this.movieAgeRating,
-          this.movieRate
+          this.movieRate,
+          this.movieKinopoiskId
           );
     }
 
@@ -78,5 +101,41 @@ async createCountryList(movieList: any) {
     
   }
   return (this.countryName, this.countryId);
+}
+
+  async createDetailList(movieList: any) {
+    this.detailList = movieList.entityJSON.encyclopedia;
+    for (let i = 0; i < this.detailList.length; i++) {
+      if (this.detailList[i].type == 'details') {
+        this.detailName.push(this.detailList[i].name);
+        this.detailValue.push(this.detailList[i].value);
+      } else {
+        this.personOccupation.push(this.detailList[i].name);
+        this.personId.push(this.detailList[i].value);
+      }
+    }
+    return (
+      this.detailName,
+      this.detailValue,
+      this.personOccupation,
+      this.personId);
+  }
+
+  async createSimilarList(movieList: any) {
+    this.similarList = movieList.entityJSON.simularFilms;
+    for (let i = 0; i < this.similarList.length; i++) {
+      this.similarName.push(this.similarList[i].name);
+      this.similarUrl.push(this.similarList[i].url);
+      this.similarKinopoiskId.push(this.similarList[i].kinopoiskId);
+    }
+    return (this.similarName, this.similarUrl, this.similarKinopoiskId);
+}
+
+  async putGenresTodatabase() {
+    for (let i = 0; i < this.genreList.length; i++) {
+      let genre = this.genreName[i];
+      let genreEng = this.genreNameEng[i];
+      await genresController.create({genre, genreEng});
+  }
 }
 }
