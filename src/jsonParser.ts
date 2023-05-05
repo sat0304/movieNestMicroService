@@ -1,9 +1,15 @@
 import { GenresController } from "./genres/genres.controller";
 import { Genre } from "./genres/genres.model";
 import { GenresService } from "./genres/genres.service";
+import { MoviesController } from "./movies/movies.controller";
+import { Movie } from "./movies/movies.model";
+import { MoviesService } from "./movies/movies.service";
 
 const genresService = new GenresService(Genre);
 const genresController = new GenresController(genresService);
+
+const moviesService = new MoviesService(Movie);
+const moviesController = new MoviesController(moviesService);
 
 export class MovieList {
   movieName: any;
@@ -131,11 +137,18 @@ async createCountryList(movieList: any) {
     return (this.similarName, this.similarUrl, this.similarKinopoiskId);
 }
 
-  async putGenresTodatabase() {
+  async putGenresToDatabase() {
     for (let i = 0; i < this.genreList.length; i++) {
       let genre = this.genreName[i];
       let genreEng = this.genreNameEng[i];
       await genresController.create({genre, genreEng});
   }
 }
+
+  async putMoviesToDatabase() {
+    let name = this.movieName;
+    let year = this.movieYear;
+    let kinopoiskId = this.movieKinopoiskId;
+    await moviesController.create({name, year, kinopoiskId});
+  }
 }

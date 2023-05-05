@@ -26,7 +26,8 @@ export default class MessageHandler{
         await movieList.createCountryList(data);
         await movieList.createDetailList(data);
         await movieList.createSimilarList(data);
-        // await movieList.putGenresTodatabase();
+        // await movieList.putGenresToDatabase();
+        await movieList.putMoviesToDatabase();
 
 
         // console.log('the movie name from class is ', movieList.movieName);
