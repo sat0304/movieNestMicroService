@@ -4,6 +4,9 @@ import { GenresService } from "./genres/genres.service";
 import { MoviesController } from "./movies/movies.controller";
 import { Movie } from "./movies/movies.model";
 import { MoviesService } from "./movies/movies.service";
+import { PersonsController } from "./persons/persons.controller";
+import { Person } from "./persons/persons.model";
+import { PersonsService } from "./persons/persons.service";
 
 const genresService = new GenresService(Genre);
 const genresController = new GenresController(genresService);
@@ -11,22 +14,25 @@ const genresController = new GenresController(genresService);
 const moviesService = new MoviesService(Movie);
 const moviesController = new MoviesController(moviesService);
 
+const personsService = new PersonsService(Person);
+const personsController = new PersonsController(personsService);
+
 export class MovieList {
+  movieKinopoiskId: number;
   movieName: any;
   movieOriginalName: any;
   movieDescription: any;
+  moviePoster: any;
+  movieTrailerLink: any;
+  movieYear: number;
+  movieLength: any;
+  movieAgeRating: any;
+  movieRate: any;
   
   actorList = [];
   actorName = [];
   actorLink = [];
   actorKinopoiskId = [];
-
-  moviePoster: any;
-  movieTrailerLink: any;
-  movieYear: number;
-
-  movieLength: any;
-  movieAgeRating: any;
 
   genreList = [];
   genreName = [];
@@ -35,8 +41,6 @@ export class MovieList {
   countryList = [];
   countryName = [];
   countryId = [];
-
-  movieRate: any;
 
   detailList = [];
   detailName = [];
@@ -50,31 +54,29 @@ export class MovieList {
   similarUrl = [];
   similarKinopoiskId = [];
 
-  movieKinopoiskId: any;
-
 
     async createMovieFeatures(movieList: any) {
+        this.movieKinopoiskId = Number(movieList.entityJSON.kinopoiskId);
         this.movieName = movieList.entityJSON.name;
-        this.moviePoster = movieList.entityJSON.poster;
         this.movieOriginalName = movieList.entityJSON.originalName;
         this.movieDescription = movieList.entityJSON.description;
+        this.moviePoster = movieList.entityJSON.poster;
         this.movieTrailerLink = movieList.entityJSON.trailerLink;
-        this.movieYear = movieList.entityJSON.year;
+        this.movieYear = Number(movieList.entityJSON.year);
         this.movieLength = movieList.entityJSON.movieLength;
         this.movieAgeRating = movieList.entityJSON.ageRating;
         this.movieRate = movieList.entityJSON.rate.kinopoisk;
-        this.movieKinopoiskId = movieList.entityJSON.kinopoiskId;
         return  (
+          this.movieKinopoiskId,
           this.movieName,
-          this.moviePoster,
           this.movieOriginalName,
-          this.movieDescription, 
+          this.movieDescription,
+          this.moviePoster,
           this.movieTrailerLink,
           this.movieYear,
           this.movieLength,
           this.movieAgeRating,
-          this.movieRate,
-          this.movieKinopoiskId
+          this.movieRate
           );
     }
 
@@ -138,17 +140,70 @@ async createCountryList(movieList: any) {
 }
 
   async putGenresToDatabase() {
-    for (let i = 0; i < this.genreList.length; i++) {
-      let genre = this.genreName[i];
-      let genreEng = this.genreNameEng[i];
-      await genresController.create({genre, genreEng});
+    try {
+      for (let i = 0; i < this.genreList.length; i++) {
+        let genre = this.genreName[i];
+        let genreEng = this.genreNameEng[i];
+        await genresController.create({genre, genreEng});
+      }
+    }catch (e) {
+      console.log('The genre already exists')
   }
 }
 
   async putMoviesToDatabase() {
-    let name = this.movieName;
-    let year = this.movieYear;
-    let kinopoiskId = this.movieKinopoiskId;
-    await moviesController.create({name, year, kinopoiskId});
+    try {
+      let name = this.movieName;
+      let kinopoiskId = this.movieKinopoiskId;
+      let originalName = this.movieOriginalName;
+      let description = this.movieDescription;
+      let poster = this.moviePoster;
+      let trailerLink = this.movieTrailerLink;
+      let year = this.movieYear;
+      let movieLength = this.movieLength;
+      let ageRating = this.movieAgeRating;
+      let rate = this.movieRate;
+      await moviesController.create({
+        kinopoiskId,
+        name,  
+        originalName,
+        description,
+        poster,
+        trailerLink,
+        year,
+        movieLength,
+        ageRating,
+        rate
+      });
+    } catch (e) {
+      console.log('The movie already exists')
+    }
   }
+
+  async putActorToDatabase() {
+    try {
+      for (let i = 0; i < this.actorList.length; i++) {
+        let kinopoiskId = this.actorKinopoiskId[i];
+        let name = this.actorName[i];
+        let link = this.actorLink[i];
+        let occupationFirst = 'актер';
+        let occupationFirstEng = 'actor';
+        // let occupationSecond = '';
+        // let occupationSecondEng = '';
+        await personsController.create({
+          kinopoiskId,
+          name,
+          // nameEng,
+          occupationFirst,
+          occupationFirstEng,
+          // occupationSecond,
+          // occupationSecondEng,
+          link
+        });
+      }
+    }catch (e) {
+      console.log('The actor already exists')
+  }
+}
+
 }

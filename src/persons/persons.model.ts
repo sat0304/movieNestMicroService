@@ -7,27 +7,30 @@ import { PersonMovie } from "../movies/personMovie.model";
 export class Person extends Model<Person> {
 
     @Column({ type: DataType.INTEGER,
-            unique: true,
-            autoIncrement: true,
-            primaryKey: true })
-    id: number;
-
-    @Column({ type: DataType.STRING})
-    name: string;
-    
-    @Column({ type: DataType.STRING})
-    nameEng: string;
-
-    @Column({ type: DataType.STRING, allowNull: false })
-    occupation: string;
-
-    @Column({ type: DataType.STRING})
-    occupationEng: string;
-
-    @Column({ type: DataType.INTEGER, allowNull: false })
+        allowNull: false,
+        primaryKey: true,
+        unique: true })
     kinopoiskId: number;
 
-    @Column({ type: DataType.STRING })
+    @Column({ type: DataType.STRING(255)})
+    name: string;
+    
+    @Column({ type: DataType.STRING(255)})
+    nameEng: string;
+
+    @Column({ type: DataType.STRING(64), allowNull: false })
+    occupationFirst: string;
+
+    @Column({ type: DataType.STRING(64)})
+    occupationFirstEng: string;
+
+    @Column({ type: DataType.STRING(64)})
+    occupationSecond: string;
+
+    @Column({ type: DataType.STRING(64)})
+    occupationSecondEng: string;
+
+    @Column({ type: DataType.STRING(1024) })
     link: string;
 
     @BelongsToMany( () => Movie, () => PersonMovie)

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Genre } from './genres.model';
-import { CreateGenreDto } from './dto/createGenre';
+import { CreateGenreDto } from './dto/createGenreDto';
 
 @Injectable()
 export class GenresService {
@@ -13,8 +13,8 @@ export class GenresService {
         return genre;
     }
 
-    async getGenreById( id: string ) {
-        const genre = await this.genreRepo.findOne({where: { id }});
+    async getGenreByNameEng( genreEng: any ) {
+        const genre = await this.genreRepo.findOne({where: { genreEng }});
         return genre;
     }
 

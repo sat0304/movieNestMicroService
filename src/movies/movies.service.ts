@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Movie } from './movies.model';
-import { CreateMovieDto } from './dto/createMovie';
+import { CreateMovieDto } from './dto/createMovieDto';
 import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
@@ -13,20 +13,14 @@ export class MoviesService {
         return movie;
     }
 
-    async getMovieById( id: number ) {
-        const movie = await this.movieRepo.findOne({where: { id }});
-        return movie;
-    }
-
-    async getMovieByKinopoiskId( kinopoiskId: number ) {
+    async getMovieByKinopoiskId( kinopoiskId: any ) {
         const movie = await this.movieRepo.findOne({where: { kinopoiskId }});
         return movie;
     }
 
     async getAllMovies() {
-        const movies = await this.movieRepo.findAll();
-        // const movies = await this.movieRepo.findAll({include: { all: true}});
+        // const movies = await this.movieRepo.findAll();
+        const movies = await this.movieRepo.findAll({include: { all: true}});
         return movies;
-
     }
 }

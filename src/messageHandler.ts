@@ -2,11 +2,18 @@ import { GenresController } from "./genres/genres.controller";
 import { Genre } from "./genres/genres.model";
 import { GenresService } from "./genres/genres.service";
 import { MovieList } from "./jsonParser";
+import { MoviesController } from "./movies/movies.controller";
+import { Movie } from "./movies/movies.model";
+import { MoviesService } from "./movies/movies.service";
 import rabbitClient from "./rabbitMQ/client";
+
+const movieList = new MovieList();
 
 const genresService = new GenresService(Genre);
 const genresController = new GenresController(genresService);
-const movieList = new MovieList();
+
+const moviesService = new MoviesService(Movie);
+const moviesController = new MoviesController(moviesService);
 
 export default class MessageHandler{
 
@@ -18,17 +25,6 @@ export default class MessageHandler{
     ) {
         
         let response = {};
-
-        const {id} = data;
-        await movieList.createMovieFeatures(data);
-        await movieList.createActorList(data);
-        await movieList.createGenreList(data);
-        await movieList.createCountryList(data);
-        await movieList.createDetailList(data);
-        await movieList.createSimilarList(data);
-        // await movieList.putGenresToDatabase();
-        await movieList.putMoviesToDatabase();
-
 
         // console.log('the movie name from class is ', movieList.movieName);
         // console.log('the cast names are ', movieList.actorName);
@@ -57,15 +53,30 @@ export default class MessageHandler{
 
         switch (routingKey) {
             case 'getGenres':
-            response = await genresController.getAll();
-            break;
+                response = await genresController.getAll();
+                break;
             case 'getGenre':
-            response = await genresController.getById(id);
+                const {genreEng} = data;
+                response = await genresController.getByNameEng(genreEng);
+                break;
+                case 'getMovies':
+                response = await moviesController.getAllMovies();
+                break;
+            case 'getMovie':
+                const {kinopoiskId} = data;
+                response = await moviesController.getByKinopoiskId(kinopoiskId);
+                break;
+            case 'postMovie':  
+            await movieList.createMovieFeatures(data);
+            await movieList.createActorList(data);
+            await movieList.createGenreList(data);
+            await movieList.createCountryList(data);
+            await movieList.createDetailList(data);
+            await movieList.createSimilarList(data);
+            await movieList.putGenresToDatabase();
+            await movieList.putMoviesToDatabase();
+            response = 'The new movie was created';
             break;
-            case 'postMovie': response = 'The new movie was created';
-            break;
-            case 'postGenre': response = 'The new genre was created';
-        break;
             default: response = 0;
             break;
         }

@@ -14,9 +14,15 @@ export class MovieMovie extends Model<MovieMovie> {
 
     @ForeignKey(() => Movie)
     @Column({type: DataType.INTEGER})
-    movie_id: number;
+    movie_kinopoiskId: number;
     
     @ForeignKey(() => Movie)
     @Column({type: DataType.INTEGER})
-    similarMovie_id: number;
+    similarMovie_kinopoiskId: number;
+
+    indexes: [
+        {
+          unique: true,
+          fields: ['similarMovie_kinopoiskId', 'movie_kinopoiskId']
+        },]
 }

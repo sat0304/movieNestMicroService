@@ -19,58 +19,58 @@ import { MovieMovie } from "./movieMovie.model";
 export class Movie extends Model<Movie> {
 
     @Column({ type: DataType.INTEGER,
-            unique: true,
-            autoIncrement: true,
-            primaryKey: true })
-    id: number;
+              allowNull: false,
+              unique: true,
+              primaryKey: true })
+    kinopoiskId: number;  
 
-    @Column({ type: DataType.STRING, allowNull: false })
+    @Column({ type: DataType.STRING(255), allowNull: false })
     name: string;
 
-    @Column({ type: DataType.STRING})
+    @Column({ type: DataType.STRING(255)})
     originalName: string;
 
-    @Column({ type: DataType.STRING})
+    @Column({ type: DataType.STRING(1024)})
     description: string;
+
+    @Column({ type: DataType.STRING(1024)})
+    poster: string;
+    
+    @Column({ type: DataType.STRING(1024)})
+    trailerLink: string;
+
+    @Column({ type: DataType.INTEGER })
+    year: number;
+
+    @Column({ type: DataType.STRING(64)})
+    movieLength: string;
+
+    @Column({ type: DataType.STRING(16)})
+    ageRating: string;
+
+    @Column({ type: DataType.STRING(16)})
+    rate: string;
 
     @ForeignKey(() => Person)
     @Column({type: DataType.INTEGER})
-    actor_id: number;
+    actor_kinopoiskId: number;
 
     @BelongsToMany( () => Person, () => PersonMovie)
     actors: Person[];
 
-    @Column({ type: DataType.STRING})
-    poster: string;
-    
-    @Column({ type: DataType.STRING})
-    trailerLink: string;
-
-    @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 1895})
-    year: number;
-
-    @Column({ type: DataType.STRING})
-    movieLength: string;
-
-    @Column({ type: DataType.STRING})
-    ageRating: string;
-
     @ForeignKey(() => Genre)
-    @Column({type: DataType.INTEGER})
-    genre_id: number;
+    @Column({type: DataType.STRING})
+    genre_nameEng: string;
 
     @BelongsToMany( () => Genre, () => GenreMovie)
     genres: Genre[];
 
     @ForeignKey(() => Country)
-    @Column({type: DataType.INTEGER})
-    country_id: number;
+    @Column({type: DataType.STRING})
+    country_nameEng: string;
 
     @BelongsToMany( () => Country, () => CountryMovie)
     countries: Country[];
-
-    @Column({ type: DataType.STRING})
-    rate: string;
 
     @ForeignKey(() => Detail)
     @Column({type: DataType.INTEGER})
@@ -81,18 +81,15 @@ export class Movie extends Model<Movie> {
 
     @ForeignKey(() => Person)
     @Column({type: DataType.INTEGER})
-    person_id: number;
+    person_kinopoiskId: number;
 
     @BelongsToMany( () => Person, () => PersonMovie)
     persons: Person[];
 
     @ForeignKey(() => Movie)
     @Column({type: DataType.INTEGER})
-    movie_id: number;
+    movie_kinopoiskId: number;
 
     @BelongsToMany( () => Movie, () => MovieMovie)
-    simularFilms: Movie[]
-
-    @Column({ type: DataType.INTEGER, allowNull: false })
-    kinopoiskId: number;   
+    simularFilms: Movie[] 
 }

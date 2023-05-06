@@ -14,9 +14,15 @@ export class PersonMovie extends Model<PersonMovie> {
 
     @ForeignKey(() => Person)
     @Column({type: DataType.INTEGER})
-    person_id: number;
+    person_kinopoiskId: number;
     
     @ForeignKey(() => Movie)
     @Column({type: DataType.INTEGER})
-    movie_id: number;
+    movie_kinopoiskId: number;
+
+    indexes: [
+        {
+          unique: true,
+          fields: ['person_kinopoiskId', 'movie_kinopoiskId']
+        },]
 }

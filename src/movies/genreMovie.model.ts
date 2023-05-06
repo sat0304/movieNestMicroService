@@ -13,10 +13,16 @@ export class GenreMovie extends Model<GenreMovie> {
     id: number;
 
     @ForeignKey(() => Genre)
-    @Column({type: DataType.INTEGER})
-    genre_id: number;
+    @Column({type: DataType.STRING})
+    genre_nameEng: string;
     
     @ForeignKey(() => Movie)
     @Column({type: DataType.INTEGER})
-    movie_id: number;
+    movie_kinopoiskId: number;
+
+    indexes: [
+        {
+          unique: true,
+          fields: ['genre_nameEng', 'movie_kinopoiskId']
+        },]
 }

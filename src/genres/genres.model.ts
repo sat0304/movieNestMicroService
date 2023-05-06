@@ -10,17 +10,13 @@ import { GenreMovie } from "../movies/genreMovie.model";
 @Table({ tableName: 'genre', createdAt: false, updatedAt: false })
 export class Genre extends Model<Genre> {
 
-    @Column({ type: DataType.INTEGER,
-            unique: true,
-            autoIncrement: true,
-            primaryKey: true })
-    id: number;
-
-    @Column({ type: DataType.STRING, allowNull: false })
-    genre: string;
-
-    @Column({ type: DataType.STRING})
+    @Column({ type: DataType.STRING(64), 
+        unique: true,
+        primaryKey: true})
     genreEng: string;
+
+    @Column({ type: DataType.STRING(64), allowNull: false })
+    genre: string;
 
     @BelongsToMany( () => Movie, () => GenreMovie)
     movies: Movie[];
