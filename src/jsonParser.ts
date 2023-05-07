@@ -180,24 +180,20 @@ async createCountryList(movieList: any) {
     }
   }
 
-  async putActorToDatabase() {
+  async putActorsToDatabase() {
     try {
+      this.personOccupation.push('актер');
       for (let i = 0; i < this.actorList.length; i++) {
         let kinopoiskId = this.actorKinopoiskId[i];
         let name = this.actorName[i];
+        let profession = 'актер';
+        let professions = ['актер'];
         let link = this.actorLink[i];
-        let occupationFirst = 'актер';
-        let occupationFirstEng = 'actor';
-        // let occupationSecond = '';
-        // let occupationSecondEng = '';
         await personsController.create({
           kinopoiskId,
           name,
-          // nameEng,
-          occupationFirst,
-          occupationFirstEng,
-          // occupationSecond,
-          // occupationSecondEng,
+          profession,
+          professions,
           link
         });
       }

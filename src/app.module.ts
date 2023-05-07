@@ -16,6 +16,9 @@ import { Movie } from './movies/movies.model';
 import { GenreMovie } from './movies/genreMovie.model';
 import { PersonMovie } from './movies/personMovie.model';
 import { MovieMovie } from './movies/movieMovie.model';
+import { ProfessionsModule } from './professions/professions.module';
+import { Profession } from './professions/professions.model';
+import { ProfessionPerson } from './persons/professionPerson.model';
 
 @Module({
   imports: [
@@ -34,11 +37,13 @@ import { MovieMovie } from './movies/movieMovie.model';
              Genre,
              Movie,
              Person,
+             Profession,
              CountryMovie,
              DetailMovie,
              GenreMovie,
              MovieMovie,
              PersonMovie,
+             ProfessionPerson
             ],
     autoLoadModels: true,
   }),
@@ -47,6 +52,7 @@ import { MovieMovie } from './movies/movieMovie.model';
     PersonsModule,
     DetailsModule,
     CountriesModule,
+    ProfessionsModule,
 ],
   controllers: [],
   providers: [],

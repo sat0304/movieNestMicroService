@@ -1,6 +1,13 @@
-import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
+import { 
+    BelongsToMany, 
+    Column, DataType, 
+    ForeignKey, 
+    Model, 
+    Table } from "sequelize-typescript";
 import { Movie } from "../movies/movies.model";
 import { PersonMovie } from "../movies/personMovie.model";
+import { Profession } from "../professions/professions.model";
+import { ProfessionPerson } from "./professionPerson.model";
 
 
 @Table({tableName: 'person', createdAt: false, updatedAt: false})
@@ -18,20 +25,12 @@ export class Person extends Model<Person> {
     @Column({ type: DataType.STRING(255)})
     nameEng: string;
 
-    @Column({ type: DataType.STRING(64), allowNull: false })
-    occupationFirst: string;
+    @ForeignKey(() => Profession)
+    @Column({type: DataType.STRING(64), allowNull: false})
+    profession: string;
 
-    @Column({ type: DataType.STRING(64)})
-    occupationFirstEng: string;
-
-    @Column({ type: DataType.STRING(64)})
-    occupationSecond: string;
-
-    @Column({ type: DataType.STRING(64)})
-    occupationSecondEng: string;
-
-    @Column({ type: DataType.STRING(1024) })
-    link: string;
+    @BelongsToMany( () => Profession, () => ProfessionPerson)
+    professions: Profession[];
 
     @BelongsToMany( () => Movie, () => PersonMovie)
     movies: Movie[];
