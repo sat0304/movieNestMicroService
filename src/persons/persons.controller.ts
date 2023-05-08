@@ -8,8 +8,8 @@ export class PersonsController {
     constructor( private personService: PersonsService) {}
 
     @Post()
-    async create(@Body() dto: CreatePersonDto) {
-        return await this.personService.createPerson(dto);
+    async create(@Body() dto: CreatePersonDto, nameProfession: string) {
+        return await this.personService.createPerson(dto, nameProfession);
     }
 
     @Get('/:kinopoiskId')

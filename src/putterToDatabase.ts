@@ -96,29 +96,26 @@ async putPersonsToDatabase() {
   try {
     for (let i = 0; i < this.parsedData.personOccupation.length; i++) {
       let name = 'Имя ' + i;
-      // let profession = this.parsedData.personOccupation[i];
       let link = '';
         for (let j = 0; j < this.parsedData.personId[i].length; j++) {
           let kinopoiskId = this.parsedData.personId[i][j];
           await personsController.create({
             kinopoiskId,
             name,
-            // profession,
             link
-          });
+          },
+          this.parsedData.personOccupation[i]);
         }
     }
     for (let i = 0; i < this.parsedData.actorList.length; i++) {
       let kinopoiskId = this.parsedData.actorKinopoiskId[i];
       let name = this.parsedData.actorName[i];
-      // let profession = 'Актер';
       let link = this.parsedData.actorLink[i];
       await personsController.create({
         kinopoiskId,
         name,
-        // profession,
         link
-      });
+      }, 'Актер');
     }
   }catch (e) {
     console.log('The person already exists')
