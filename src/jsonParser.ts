@@ -1,21 +1,3 @@
-import { GenresController } from "./genres/genres.controller";
-import { Genre } from "./genres/genres.model";
-import { GenresService } from "./genres/genres.service";
-import { MoviesController } from "./movies/movies.controller";
-import { Movie } from "./movies/movies.model";
-import { MoviesService } from "./movies/movies.service";
-import { PersonsController } from "./persons/persons.controller";
-import { Person } from "./persons/persons.model";
-import { PersonsService } from "./persons/persons.service";
-
-const genresService = new GenresService(Genre);
-const genresController = new GenresController(genresService);
-
-const moviesService = new MoviesService(Movie);
-const moviesController = new MoviesController(moviesService);
-
-const personsService = new PersonsService(Person);
-const personsController = new PersonsController(personsService);
 
 export class MovieList {
   movieKinopoiskId: number;
@@ -80,16 +62,6 @@ export class MovieList {
           );
     }
 
-    async createActorList(movieList: any) {
-      this.actorList = movieList.entityJSON.actors;
-      for (let i = 0; i < this.actorList.length; i++) {
-        this.actorName.push(this.actorList[i].name);
-        this.actorLink.push(this.actorList[i].link);
-        this.actorKinopoiskId.push(this.actorList[i].kinopoiskId);
-      }
-      return (this.actorName, this.actorLink, this.actorKinopoiskId);
-  }
-
   async createGenreList(movieList: any) {
     this.genreList = movieList.entityJSON.genres;
     for (let i = 0; i < this.genreList.length; i++) {
@@ -129,6 +101,22 @@ async createCountryList(movieList: any) {
       this.personId);
   }
 
+  async createActorList(movieList: any) {
+    this.actorList = movieList.entityJSON.actors;
+    for (let i = 0; i < this.actorList.length; i++) {
+      this.actorName.push(this.actorList[i].name);
+      this.actorLink.push(this.actorList[i].link);
+      this.actorKinopoiskId.push(this.actorList[i].kinopoiskId);
+      this.personOccupation.push('Актер');
+      this.personId.push(Number(this.actorList[i].kinopoiskId));
+
+    }
+    return (
+      this.actorName, 
+      this.actorLink, 
+      this.actorKinopoiskId);
+}
+
   async createSimilarList(movieList: any) {
     this.similarList = movieList.entityJSON.simularFilms;
     for (let i = 0; i < this.similarList.length; i++) {
@@ -137,69 +125,5 @@ async createCountryList(movieList: any) {
       this.similarKinopoiskId.push(this.similarList[i].kinopoiskId);
     }
     return (this.similarName, this.similarUrl, this.similarKinopoiskId);
-}
-
-  async putGenresToDatabase() {
-    try {
-      for (let i = 0; i < this.genreList.length; i++) {
-        let genre = this.genreName[i];
-        let genreEng = this.genreNameEng[i];
-        await genresController.create({genre, genreEng});
-      }
-    }catch (e) {
-      console.log('The genre already exists')
   }
-}
-
-  async putMoviesToDatabase() {
-    try {
-      let name = this.movieName;
-      let kinopoiskId = this.movieKinopoiskId;
-      let originalName = this.movieOriginalName;
-      let description = this.movieDescription;
-      let poster = this.moviePoster;
-      let trailerLink = this.movieTrailerLink;
-      let year = this.movieYear;
-      let movieLength = this.movieLength;
-      let ageRating = this.movieAgeRating;
-      let rate = this.movieRate;
-      await moviesController.create({
-        kinopoiskId,
-        name,  
-        originalName,
-        description,
-        poster,
-        trailerLink,
-        year,
-        movieLength,
-        ageRating,
-        rate
-      });
-    } catch (e) {
-      console.log('The movie already exists')
-    }
-  }
-
-  async putActorsToDatabase() {
-    try {
-      this.personOccupation.push('актер');
-      for (let i = 0; i < this.actorList.length; i++) {
-        let kinopoiskId = this.actorKinopoiskId[i];
-        let name = this.actorName[i];
-        let profession = 'актер';
-        let professions = ['актер'];
-        let link = this.actorLink[i];
-        await personsController.create({
-          kinopoiskId,
-          name,
-          profession,
-          professions,
-          link
-        });
-      }
-    }catch (e) {
-      console.log('The actor already exists')
-  }
-}
-
 }

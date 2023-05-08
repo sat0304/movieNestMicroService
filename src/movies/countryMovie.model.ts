@@ -13,8 +13,8 @@ export class CountryMovie extends Model<CountryMovie> {
     id: number;
 
     @ForeignKey(() => Country)
-    @Column({type: DataType.STRING})
-    country_nameEng: string;
+    @Column({type: DataType.INTEGER})
+    country_id: number;
     
     @ForeignKey(() => Movie)
     @Column({type: DataType.INTEGER})
@@ -23,6 +23,6 @@ export class CountryMovie extends Model<CountryMovie> {
     indexes: [
         {
           unique: true,
-          fields: ['country_nameEng', 'movie_kinopoiskId']
+          fields: ['country_id', 'movie_kinopoiskId']
         },]
 }

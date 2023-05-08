@@ -13,5 +13,6 @@ import { ProfessionPerson } from '../persons/professionPerson.model';
     Person, 
     Profession,
     ProfessionPerson])],
+  exports: [ProfessionsService],
 })
 export class ProfessionsModule {}

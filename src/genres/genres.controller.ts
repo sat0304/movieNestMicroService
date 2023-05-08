@@ -2,9 +2,8 @@ import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { GenresService } from './genres.service';
 import { CreateGenreDto } from './dto/createGenreDto';
 
-@Controller()
+@Controller('genres')
 export class GenresController {
-    [x: string]: any;
 
     constructor( private genreService: GenresService) {}
 
@@ -14,9 +13,9 @@ export class GenresController {
         return this.genreService.createGenre(dto);
     }
 
-    @Get('/:nameEng')
-    getByNameEng(@Param('nameEng') nameEng: any ) {
-        return this.genreService.getGenreByNameEng( nameEng );
+    @Get('/:genreEng')
+    getByName(@Param('genreEng') genreEng: any ) {
+        return this.genreService.getGenreByName( genreEng );
     }
 
     @Get()

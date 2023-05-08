@@ -6,13 +6,16 @@ import { CountryMovie } from "../movies/countryMovie.model";
 @Table({tableName: 'country', createdAt: false, updatedAt: false})
 export class Country extends Model<Country> {
     
-    @Column({ type: DataType.STRING(255),
+    @Column({ type: DataType.INTEGER,
         unique: true,
         primaryKey: true})
-    countryEng: string;
+    countryId: number;
 
     @Column({ type: DataType.STRING(255)})
     country: string;
+
+    @Column({ type: DataType.STRING(255)})
+    countryEng: string;
 
     @BelongsToMany( () => Movie, () => CountryMovie)
     movies: Movie[];

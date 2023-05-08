@@ -25,12 +25,11 @@ export class Person extends Model<Person> {
     @Column({ type: DataType.STRING(255)})
     nameEng: string;
 
-    @ForeignKey(() => Profession)
-    @Column({type: DataType.STRING(64), allowNull: false})
-    profession: string;
-
     @BelongsToMany( () => Profession, () => ProfessionPerson)
     professions: Profession[];
+
+    @Column({ type: DataType.STRING(255)})
+    link: string;
 
     @BelongsToMany( () => Movie, () => PersonMovie)
     movies: Movie[];

@@ -23,4 +23,10 @@ export class Detail extends Model<Detail> {
 
     @BelongsToMany( () => Movie, () => DetailMovie)
     movies: Movie[];
+
+    indexes: [
+        {
+          unique: true,
+          fields: ['name', 'value']
+        },]
 }

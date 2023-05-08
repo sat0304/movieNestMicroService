@@ -7,10 +7,12 @@ import { PersonMovie } from '../movies/personMovie.model';
 import { PersonsController } from './persons.controller';
 import { Profession } from '../professions/professions.model';
 import { ProfessionPerson } from './professionPerson.model';
+import { ProfessionsModule } from '../professions/professions.module';
 
 @Module({
   providers: [PersonsService],
-  imports: [SequelizeModule.forFeature([
+  imports: [ProfessionsModule,
+    SequelizeModule.forFeature([
     Movie, 
     Person, 
     PersonMovie,

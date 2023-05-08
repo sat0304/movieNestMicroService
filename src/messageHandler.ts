@@ -1,3 +1,9 @@
+import { CountriesController } from "./countries/countries.controller";
+import { Country } from "./countries/countries.model";
+import { CountriesService } from "./countries/countries.service";
+import { DetailsController } from "./details/details.controller";
+import { Detail } from "./details/details.model";
+import { DetailsService } from "./details/details.service";
 import { GenresController } from "./genres/genres.controller";
 import { Genre } from "./genres/genres.model";
 import { GenresService } from "./genres/genres.service";
@@ -8,9 +14,20 @@ import { MoviesService } from "./movies/movies.service";
 import { PersonsController } from "./persons/persons.controller";
 import { Person } from "./persons/persons.model";
 import { PersonsService } from "./persons/persons.service";
+import { ProfessionsController } from "./professions/professions.controller";
+import { Profession } from "./professions/professions.model";
+import { ProfessionsService } from "./professions/professions.service";
+import { LoaderToDatabase } from "./putterToDatabase";
 import rabbitClient from "./rabbitMQ/client";
 
 const movieList = new MovieList();
+const loaderToDatabase = new LoaderToDatabase(movieList);
+
+const countriesService = new CountriesService(Country);
+const countriesController = new CountriesController(countriesService);
+
+const detailsService = new DetailsService(Detail);
+const detailsController = new DetailsController(detailsService);
 
 const genresService = new GenresService(Genre);
 const genresController = new GenresController(genresService);
@@ -18,7 +35,10 @@ const genresController = new GenresController(genresService);
 const moviesService = new MoviesService(Movie);
 const moviesController = new MoviesController(moviesService);
 
-const personsService = new PersonsService(Person);
+const professionsService = new ProfessionsService(Profession);
+const professionsController = new ProfessionsController(professionsService);
+
+const personsService = new PersonsService(Person, professionsService);
 const personsController = new PersonsController(personsService);
 
 export default class MessageHandler{
@@ -32,40 +52,56 @@ export default class MessageHandler{
   {
         
     let response = {};
-    const {kinopoiskId} = data;
+    let {kinopoiskId} = data;
 
-    // console.log('the movie name from class is ', movieList.movieName);
-    // console.log('the cast names are ', movieList.actorName);
-    // console.log('the cast Links to pages are ', movieList.actorLink);
-    // console.log('the actors KinopoiskIds are', movieList.actorKinopoiskId);
-    // console.log('the poster is ', movieList.moviePoster);
-    // console.log('the movie Original Name is', movieList.movieOriginalName);
-    // console.log('the movie description is', movieList.movieDescription);
-    // console.log('the movie trailer link is', movieList.movieTrailerLink);
-    // console.log('the movie release year is', movieList.movieYear);
-    // console.log('the movie length is', movieList.movieLength);
-    // console.log('the movie ageRating is', movieList.movieAgeRating);
-    // console.log('the genres names are', movieList.genreName);
-    // console.log('the genres names English are', movieList.genreNameEng);
-    // console.log('the countries names are', movieList.countryName);
-    // console.log('the countries ids are', movieList.countryId);
-    // console.log('the kinopoisk rate is', movieList.movieRate);
-    // console.log('the details names are', movieList.detailName);
-    // console.log('the details values are', movieList.detailValue);
-    // console.log('the makers are', movieList.personOccupation);
-    // console.log('the makers ids are', movieList.personId);
-    // console.log('the similar films names are', movieList.similarName);
-    // console.log('the similar films Urls are', movieList.similarUrl);
-    // console.log('the similar films KinopoiskIds are', movieList.similarKinopoiskId);
-    // console.log('the movie KinopoiskId is', movieList.movieKinopoiskId);
+    // console.log('the movie name from class is ', loaderToDatabase.movieName);
+    // console.log('the cast names are ', loaderToDatabase.actorName);
+    // console.log('the cast Links to pages are ', loaderToDatabase.actorLink);
+    // console.log('the actors KinopoiskIds are', loaderToDatabase.actorKinopoiskId);
+    // console.log('the poster is ', loaderToDatabase.moviePoster);
+    // console.log('the movie Original Name is', loaderToDatabase.movieOriginalName);
+    // console.log('the movie description is', loaderToDatabase.movieDescription);
+    // console.log('the movie trailer link is', loaderToDatabase.movieTrailerLink);
+    // console.log('the movie release year is', loaderToDatabase.movieYear);
+    // console.log('the movie length is', loaderToDatabase.movieLength);
+    // console.log('the movie ageRating is', loaderToDatabase.movieAgeRating);
+    // console.log('the genres names are', loaderToDatabase.genreName);
+    // console.log('the genres names English are', loaderToDatabase.genreNameEng);
+    // console.log('the countries names are', loaderToDatabase.countryName);
+    // console.log('the countries ids are', loaderToDatabase.countryId);
+    // console.log('the kinopoisk rate is', loaderToDatabase.movieRate);
+    // console.log('the details names are', loaderToDatabase.detailName);
+    // console.log('the details values are', loaderToDatabase.detailValue);
+    // console.log('the makers are', loaderToDatabase.personOccupation);
+    // console.log('the makers ids are', loaderToDatabase.personId);
+    // console.log('the similar films names are', loaderToDatabase.similarName);
+    // console.log('the similar films Urls are', loaderToDatabase.similarUrl);
+    // console.log('the similar films KinopoiskIds are', loaderToDatabase.similarKinopoiskId);
+    // console.log('the movie KinopoiskId is', loaderToDatabase.movieKinopoiskId);
 
     switch (routingKey) {
+    case 'getCountries':
+      response = await countriesController.getAll();
+      break;
+    case 'getCountry':
+      const {countryId} = data;
+      response = await countriesController.getCountryById(countryId);
+      break;
+
+    case 'getDetails':
+      response = await detailsController.getAll();
+      break;
+    case 'getDetail':
+      const {name} = data;
+      response = await detailsController.getDetailByName(name);
+      break;
+
     case 'getGenres':
       response = await genresController.getAll();
       break;
     case 'getGenre':
       const {genreEng} = data;
-      response = await genresController.getByNameEng(genreEng);
+      response = await genresController.getByName(genreEng);
       break;
     case 'getMovies':
       response = await moviesController.getAllMovies();
@@ -79,16 +115,29 @@ export default class MessageHandler{
     case 'getPerson':
       response = await personsController.getByKinopoiskId(kinopoiskId);
       break;
-    case 'postMovie':  
+    case 'getProfessions':
+      response = await professionsController.getAll();
+      break;
+    case 'getProfession':
+      const {profession} = data;
+      response = await professionsController.getByName(profession);
+      break;
+    case 'postMovie': 
       await movieList.createMovieFeatures(data);
-      await movieList.createActorList(data);
       await movieList.createGenreList(data);
-      await movieList.createCountryList(data);
       await movieList.createDetailList(data);
+      await movieList.createCountryList(data);
+      await movieList.createActorList(data);
       await movieList.createSimilarList(data);
-      await movieList.putGenresToDatabase();
-      await movieList.putMoviesToDatabase();
-      await movieList.putActorsToDatabase();
+
+      await loaderToDatabase.putDetailsToDatabase();
+      await loaderToDatabase.putProfessionsToDatabase();
+      await loaderToDatabase.putCountriesToDatabase();
+      await loaderToDatabase.putGenresToDatabase();
+      await loaderToDatabase.putPersonsToDatabase();
+      await loaderToDatabase.putSimilarMoviesToDatabase();
+      await loaderToDatabase.putMoviesToDatabase();
+      
       response = 'The new movie was created';
       break;
     default: response = 0;
