@@ -91,5 +91,5 @@ export class Movie extends Model<Movie> {
     // movie_kinopoiskId: number;
 
     @BelongsToMany( () => Movie, () => MovieMovie)
-    simularFilms: Movie[] 
+    similarFilms: Movie[] 
 }

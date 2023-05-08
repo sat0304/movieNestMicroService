@@ -12,11 +12,13 @@ import { GenreMovie } from './genreMovie.model';
 import { PersonMovie } from './personMovie.model';
 import { MovieMovie } from './movieMovie.model';
 import { MoviesController } from './movies.controller';
+import { PersonsModule } from '../persons/persons.module';
 
 @Module({
   controllers: [MoviesController],
   providers: [MoviesService],
-  imports: [SequelizeModule.forFeature(
+  imports: [
+    SequelizeModule.forFeature(
     [ Country,
       Genre,
       Detail,

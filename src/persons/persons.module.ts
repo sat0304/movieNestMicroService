@@ -18,6 +18,7 @@ import { ProfessionsModule } from '../professions/professions.module';
     PersonMovie,
     Profession,
     ProfessionPerson])],
+  // exports: [PersonsService],
   controllers: [PersonsController]
 })
 export class PersonsModule {}

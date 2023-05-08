@@ -3,6 +3,5 @@
 export class CreatePersonDto {
     kinopoiskId: number;
     name: string;
-    // professions: any[];
     link: string;
 }

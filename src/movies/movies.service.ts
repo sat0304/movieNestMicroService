@@ -2,14 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { Movie } from './movies.model';
 import { CreateMovieDto } from './dto/createMovieDto';
 import { InjectModel } from '@nestjs/sequelize';
+import { PersonsService } from '../persons/persons.service';
 
 @Injectable()
 export class MoviesService {
 
-    constructor(@InjectModel(Movie) private movieRepo: typeof Movie) {}
+    constructor(
+        @InjectModel(Movie) private movieRepo: typeof Movie) {}
 
-    async createMovie(dto: CreateMovieDto) {
+    async createMovie( dto: CreateMovieDto ) {
         const movie = await this.movieRepo.create(dto);
+        // const similarMovie = await this.getMovieByKinopoiskId(movieKinopoiskId);
+        // await movie.$set( 'similarFilms', [similarMovie.kinopoiskId] );
         return movie;
     }
 

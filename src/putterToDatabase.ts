@@ -18,6 +18,12 @@ import { ProfessionsController } from "./professions/professions.controller";
 import { Profession } from "./professions/professions.model";
 import { ProfessionsService } from "./professions/professions.service";
 
+const professionsService = new ProfessionsService(Profession);
+const professionsController = new ProfessionsController(professionsService);
+
+const personsService = new PersonsService(Person, professionsService);
+const personsController = new PersonsController(personsService);
+
 const countriesService = new CountriesService(Country);
 const countriesController = new CountriesController(countriesService);
 
@@ -29,13 +35,6 @@ const genresController = new GenresController(genresService);
 
 const moviesService = new MoviesService(Movie);
 const moviesController = new MoviesController(moviesService);
-
-const professionsService = new ProfessionsService(Profession);
-const professionsController = new ProfessionsController(professionsService);
-
-const personsService = new PersonsService(Person, professionsService);
-const personsController = new PersonsController(personsService);
-
 
 export class LoaderToDatabase {
 
@@ -51,7 +50,7 @@ export class LoaderToDatabase {
           countryId});
       }
     }catch (e) {
-      console.log('The country already exists')
+      console.log('The country already exists');
   }
 }
 
@@ -65,7 +64,7 @@ export class LoaderToDatabase {
           value});
       }
     }catch (e) {
-      console.log('The detail already exists')
+      console.log('The detail already exists');
  }
 }
 
@@ -76,7 +75,7 @@ async putProfessionsToDatabase() {
       await professionsController.create({ profession});
     }
   }catch (e) {
-    console.log('The profession already exists')
+    console.log('The profession already exists');
 }
 }
 
@@ -88,14 +87,14 @@ async putProfessionsToDatabase() {
         await genresController.create({ genreEng, genre });
       }
     }catch (e) {
-      console.log('The genre already exists')
+      console.log('The genre already exists');
   }
 }
 
 async putPersonsToDatabase() {
   try {
     for (let i = 0; i < this.parsedData.personOccupation.length; i++) {
-      let name = 'Имя ' + i;
+      let name = '';
       let link = '';
         for (let j = 0; j < this.parsedData.personId[i].length; j++) {
           let kinopoiskId = this.parsedData.personId[i][j];
@@ -118,7 +117,7 @@ async putPersonsToDatabase() {
       }, 'Актер');
     }
   }catch (e) {
-    console.log('The person already exists')
+    console.log('The person already exists');
   }
  }
 
@@ -148,9 +147,8 @@ async putPersonsToDatabase() {
         rate
       });
     }
-   
   } catch (e) {
-    console.log('The movie already exists')
+    console.log('The movie already exists');
   }
 }
 
@@ -180,7 +178,7 @@ async putPersonsToDatabase() {
         rate
       });
     } catch (e) {
-      console.log('The movie already exists')
+      console.log('The movie already exists');
     }
   }
 }

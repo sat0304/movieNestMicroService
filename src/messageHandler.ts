@@ -23,6 +23,9 @@ import rabbitClient from "./rabbitMQ/client";
 const movieList = new MovieList();
 const loaderToDatabase = new LoaderToDatabase(movieList);
 
+const professionsService = new ProfessionsService(Profession);
+const professionsController = new ProfessionsController(professionsService);
+
 const countriesService = new CountriesService(Country);
 const countriesController = new CountriesController(countriesService);
 
@@ -32,14 +35,11 @@ const detailsController = new DetailsController(detailsService);
 const genresService = new GenresService(Genre);
 const genresController = new GenresController(genresService);
 
-const moviesService = new MoviesService(Movie);
-const moviesController = new MoviesController(moviesService);
-
-const professionsService = new ProfessionsService(Profession);
-const professionsController = new ProfessionsController(professionsService);
-
 const personsService = new PersonsService(Person, professionsService);
 const personsController = new PersonsController(personsService);
+
+const moviesService = new MoviesService(Movie);
+const moviesController = new MoviesController(moviesService);
 
 export default class MessageHandler{
 
