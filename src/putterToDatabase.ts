@@ -61,13 +61,8 @@ export class LoaderToDatabase {
 
   async putDetailsToDatabase() {
     try {
-      for (let i = 0; i < this.parsedData.detailList.length; i++) {
-        let name = 'detail_'
-          + i
-          + '_of_'
-          + this.parsedData.movieKinopoiskId 
-          + '_' 
-          + this.parsedData.detailName[i];
+      for (let i = 0; i < this.parsedData.detailName.length; i++) {
+        let name = this.parsedData.detailName[i];
         let value = this.parsedData.detailValue[i];
         await detailsController.create({
           name, 

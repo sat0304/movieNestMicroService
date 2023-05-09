@@ -44,7 +44,6 @@ export class MoviesService {
         for (let i = 0; i < actorKinopoiskIds.length; i++) {
             let actor = await this.personService.getPersonByKinopoiskId(
                     actorKinopoiskIds[i]);
-            console.log('actor KinopoiskId:) ..', actorKinopoiskIds[i]);
             await movie.$add( 'actors', [actor.personKinopoiskId] );
         }
         return movie;
@@ -97,7 +96,8 @@ export class MoviesService {
         for (let i = 0; i < details.length; i++) {
             let detail = await this.detailService.getDetailByName(
                 details[i]);
-            await movie.$add( 'details', [detail.id] );
+            console.log('details//////  ', details[i])
+            await movie.$add( 'details', [detail.name] );
         }
         return movie;
     }
