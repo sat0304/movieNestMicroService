@@ -265,4 +265,20 @@ async putPersonsToDatabase() {
       console.log('The detail is updated already', 100005);
     }
   }
+
+  async updateSimilarMovie() {
+    try {
+      const similarMovies = [];
+      for (let i = 0; i < this.parsedData.similarKinopoiskId.length; i++){
+        similarMovies.push(this.parsedData.similarKinopoiskId[i]);
+        };
+      await moviesController.updateSimilar(
+        this.parsedData.movieKinopoiskId,
+        similarMovies,
+      );
+        
+    }catch (e) {
+      console.log('The similar movie is updated already', 100006);
+    }
+  }
 }

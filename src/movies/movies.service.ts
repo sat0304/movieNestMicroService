@@ -19,8 +19,6 @@ export class MoviesService {
 
     async createMovie( dto: CreateMovieDto ) {
         const movie = await this.movieRepo.create(dto);
-        // const similarMovie = await this.getMovieByKinopoiskId(movieKinopoiskId);
-        // await movie.$set( 'similarFilms', [similarMovie.kinopoiskId] );
         return movie;
     }
 
@@ -98,6 +96,19 @@ export class MoviesService {
                 details[i]);
             console.log('details//////  ', details[i])
             await movie.$add( 'details', [detail.name] );
+        }
+        return movie;
+    }
+
+    async updateSimilarMovie( 
+        kinopoiskId: number,
+        similarIds: number[] ) {
+        const movie = await this.movieRepo.findOne(
+            {where: { kinopoiskId }});
+        for (let i = 0; i < similarIds.length; i++) {
+            let similarMovie = await this.getMovieByKinopoiskId(
+                similarIds[i]);
+            await movie.$add( 'similarFilms', [similarMovie.kinopoiskId] );
         }
         return movie;
     }

@@ -66,4 +66,13 @@ export class MoviesController {
         kinopoiskId, 
         details);
     }
+
+    @Patch(':kinopoiskId')
+    async updateSimilar(
+        @Param('kinopoiskId') kinopoiskId: number,
+        kinopoiskIds: number[]) {
+      return await this.movieService.updateSimilarMovie(
+        kinopoiskId, 
+        kinopoiskIds);
+    }
 }

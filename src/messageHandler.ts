@@ -121,6 +121,7 @@ export default class MessageHandler{
       await loaderToDatabase.updateCountriesToMovie();
       await loaderToDatabase.updateGenresToMovie();
       await loaderToDatabase.updateDetailsToMovie();
+      await loaderToDatabase.updateSimilarMovie();
 
       response = 'The new movie was created';
       break;
