@@ -4,6 +4,7 @@ import { CreateMovieDto } from './dto/createMovieDto';
 import { InjectModel } from '@nestjs/sequelize';
 import { PersonsService } from '../persons/persons.service';
 import { CountriesService } from '../countries/countries.service';
+import { GenresService } from '../genres/genres.service';
 
 @Injectable()
 export class MoviesService {
@@ -11,7 +12,8 @@ export class MoviesService {
     constructor(
         @InjectModel(Movie) private movieRepo: typeof Movie,
         private personService: PersonsService,
-        private countryService: CountriesService) {}
+        private countryService: CountriesService,
+        private genreService: GenresService) {}
 
     async createMovie( dto: CreateMovieDto ) {
         const movie = await this.movieRepo.create(dto);
@@ -42,7 +44,6 @@ export class MoviesService {
                     actorKinopoiskIds[i]);
             console.log('actor KinopoiskId:) ..', actorKinopoiskIds[i]);
             await movie.$add( 'actors', [actor.personKinopoiskId] );
-            await movie.save();
         }
         return movie;
     }
@@ -69,6 +70,19 @@ export class MoviesService {
             let country = await this.countryService.getCountryById(
                 countryIds[i]);
             await movie.$add( 'countries', [country.countryId] );
+        }
+        return movie;
+    }
+
+    async updateGenreInMovie( 
+        kinopoiskId: number, 
+        genres: string[] ) {
+        const movie = await this.movieRepo.findOne(
+            {where: { kinopoiskId }});
+        for (let i = 0; i < genres.length; i++) {
+            let genre = await this.genreService.getGenreByName(
+                genres[i]);
+            await movie.$add( 'genres', [genre.genreEng] );
         }
         return movie;
     }
