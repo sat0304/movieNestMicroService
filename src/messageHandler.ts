@@ -40,7 +40,8 @@ const personsController = new PersonsController(personsService);
 
 const moviesService = new MoviesService(
   Movie,
-  personsService);
+  personsService,
+  countriesService);
 const moviesController = new MoviesController(moviesService);
 
 export default class MessageHandler{
@@ -115,6 +116,7 @@ export default class MessageHandler{
       await loaderToDatabase.putMoviesToDatabase();
       await loaderToDatabase.updatePersonsToMovie();
       await loaderToDatabase.updateActorsToMovie();
+      await loaderToDatabase.updateCountriesToMovie();
 
       response = 'The new movie was created';
       break;

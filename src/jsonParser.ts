@@ -22,7 +22,7 @@ export class MovieList {
 
   countryList = [];
   countryName = [];
-  countryId = [];
+  countryIds = [];
 
   detailList = [];
   detailName = [];
@@ -77,10 +77,10 @@ async createCountryList(movieList: any) {
   this.countryList = movieList.entityJSON.countries;
   for (let i = 0; i < this.countryList.length; i++) {
     this.countryName.push(this.countryList[i].country);
-    this.countryId.push(this.countryList[i].countryId);
+    this.countryIds.push(this.countryList[i].countryId);
     
   }
-  return (this.countryName, this.countryId);
+  return (this.countryName, this.countryIds);
 }
 
   async createDetailList(movieList: any) {

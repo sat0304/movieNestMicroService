@@ -3,14 +3,15 @@ import { Movie } from './movies.model';
 import { CreateMovieDto } from './dto/createMovieDto';
 import { InjectModel } from '@nestjs/sequelize';
 import { PersonsService } from '../persons/persons.service';
-import { Person } from '../persons/persons.model';
+import { CountriesService } from '../countries/countries.service';
 
 @Injectable()
 export class MoviesService {
 
     constructor(
         @InjectModel(Movie) private movieRepo: typeof Movie,
-        private personService: PersonsService) {}
+        private personService: PersonsService,
+        private countryService: CountriesService) {}
 
     async createMovie( dto: CreateMovieDto ) {
         const movie = await this.movieRepo.create(dto);
@@ -54,8 +55,20 @@ export class MoviesService {
         for (let i = 0; i < personKinopoiskIds.length; i++) {
             let person = await this.personService.getPersonByKinopoiskId(
                     personKinopoiskIds[i]);
-            console.log(personKinopoiskIds[i], ' person  KinopoiskIds:):) \\ ');
             await movie.$add( 'persons', [person.personKinopoiskId] );
+        }
+        return movie;
+    }
+
+    async updateCountryInMovie( 
+        kinopoiskId: number, 
+        countryIds: number[] ) {
+        const movie = await this.movieRepo.findOne(
+            {where: { kinopoiskId }});
+        for (let i = 0; i < countryIds.length; i++) {
+            let country = await this.countryService.getCountryById(
+                countryIds[i]);
+            await movie.$add( 'countries', [country.countryId] );
         }
         return movie;
     }

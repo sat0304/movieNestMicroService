@@ -35,7 +35,8 @@ const genresController = new GenresController(genresService);
 
 const moviesService = new MoviesService(
   Movie,
-  personsService);
+  personsService,
+  countriesService);
 const moviesController = new MoviesController(moviesService);
 
 export class LoaderToDatabase {
@@ -46,7 +47,7 @@ export class LoaderToDatabase {
     try {
       for (let i = 0; i < this.parsedData.countryList.length; i++) {
         let country = this.parsedData.countryName[i];
-        let countryId = Number(this.parsedData.countryId[i]);
+        let countryId = Number(this.parsedData.countryIds[i]);
         await countriesController.create({
           country, 
           countryId});
@@ -215,4 +216,19 @@ async putPersonsToDatabase() {
     }
    } 
 
+   async updateCountriesToMovie() {
+    try {
+      const countryIds = [];
+      for (let i = 0; i < this.parsedData.countryIds.length; i++){
+        countryIds.push(this.parsedData.countryIds[i]);
+        };
+      await moviesController.updateCountry(
+        this.parsedData.movieKinopoiskId,
+        countryIds,
+      );
+        
+    }catch (e) {
+      console.log('The country is updated already', 100003);
+    }
+   }
 }
