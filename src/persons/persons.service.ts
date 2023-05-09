@@ -18,8 +18,8 @@ export class PersonsService {
         return person;
     }
 
-    async getPersonByKinopoiskId( kinopoiskId: any ) {
-        const person = await this.personRepo.findOne({where: { kinopoiskId }});
+    async getPersonByKinopoiskId( personKinopoiskId: number ) {
+        const person = await this.personRepo.findOne({where: { personKinopoiskId }});
         return person;
     }
 

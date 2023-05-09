@@ -13,17 +13,26 @@ import { PersonMovie } from './personMovie.model';
 import { MovieMovie } from './movieMovie.model';
 import { MoviesController } from './movies.controller';
 import { PersonsModule } from '../persons/persons.module';
+import { CountriesModule } from '../countries/countries.module';
+import { DetailsModule } from '../details/details.module';
+import { GenresModule } from '../genres/genres.module';
+import { ActorMovie } from './actorMovie.model';
 
 @Module({
   controllers: [MoviesController],
   providers: [MoviesService],
   imports: [
+    CountriesModule,
+    DetailsModule,
+    GenresModule,
+    PersonsModule,
     SequelizeModule.forFeature(
     [ Country,
       Genre,
       Detail,
       Movie,
       Person,
+      ActorMovie,
       CountryMovie,
       DetailMovie,
       GenreMovie,

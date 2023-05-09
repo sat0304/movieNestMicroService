@@ -13,6 +13,7 @@ import { DetailMovie } from "./detailsMovie.model";
 import { GenreMovie } from "./genreMovie.model";
 import { PersonMovie } from "./personMovie.model";
 import { MovieMovie } from "./movieMovie.model";
+import { ActorMovie } from "./actorMovie.model";
 
 
 @Table({tableName: 'film', createdAt: false, updatedAt: false})
@@ -55,7 +56,7 @@ export class Movie extends Model<Movie> {
     // @Column({type: DataType.INTEGER})
     // actor_kinopoiskId: number;
 
-    @BelongsToMany( () => Person, () => PersonMovie)
+    @BelongsToMany( () => Person, () => ActorMovie)
     actors: Person[];
 
     // @ForeignKey(() => Genre)

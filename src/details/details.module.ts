@@ -9,6 +9,7 @@ import { DetailsController } from './details.controller';
 @Module({
   providers: [DetailsService],
   imports: [SequelizeModule.forFeature([Movie, Detail, DetailMovie])],
-  controllers: [DetailsController]
+  controllers: [DetailsController],
+  exports: [DetailsService]
 })
 export class DetailsModule {}

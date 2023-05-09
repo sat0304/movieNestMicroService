@@ -33,7 +33,9 @@ const detailsController = new DetailsController(detailsService);
 const genresService = new GenresService(Genre);
 const genresController = new GenresController(genresService);
 
-const moviesService = new MoviesService(Movie);
+const moviesService = new MoviesService(
+  Movie,
+  personsService);
 const moviesController = new MoviesController(moviesService);
 
 export class LoaderToDatabase {
@@ -96,10 +98,10 @@ async putPersonsToDatabase() {
     for (let i = 0; i < this.parsedData.personOccupation.length; i++) {
       let name = '';
       let link = '';
-        for (let j = 0; j < this.parsedData.personId[i].length; j++) {
-          let kinopoiskId = this.parsedData.personId[i][j];
+        for (let j = 0; j < this.parsedData.personIds[i].length; j++) {
+          let personKinopoiskId = this.parsedData.personIds[i][j];
           await personsController.create({
-            kinopoiskId,
+            personKinopoiskId,
             name,
             link
           },
@@ -107,11 +109,11 @@ async putPersonsToDatabase() {
         }
     }
     for (let i = 0; i < this.parsedData.actorList.length; i++) {
-      let kinopoiskId = this.parsedData.actorKinopoiskId[i];
+      let personKinopoiskId = this.parsedData.actorKinopoiskIds[i];
       let name = this.parsedData.actorName[i];
       let link = this.parsedData.actorLink[i];
       await personsController.create({
-        kinopoiskId,
+        personKinopoiskId,
         name,
         link
       }, 'Актер');
@@ -181,4 +183,38 @@ async putPersonsToDatabase() {
       console.log('The movie already exists');
     }
   }
+
+  async updateActorsToMovie() {
+    try {
+      console.log('actorKinopoiskIds) ..', this.parsedData.actorKinopoiskIds);
+      await moviesController.updateActor
+      (
+        this.parsedData.movieKinopoiskId,
+        this.parsedData.actorKinopoiskIds,
+      );
+      
+    }catch (e) {
+      console.log('The actor is updated already');
+    }
+   }
+
+   async updatePersonsToMovie() {
+    try {
+      let personKinopoiskIds: number[];
+      for (let i = 0; i < this.parsedData.personIds.length; i++){
+          for (let j = 0; j < this.parsedData.personIds[i].length; j++) {
+            personKinopoiskIds.push(this.parsedData.personIds[i][j]);
+          };
+        };
+      console.log('personKinopoiskIds *** ', personKinopoiskIds);
+      await moviesController.updatePerson(
+        this.parsedData.movieKinopoiskId,
+        personKinopoiskIds,
+      );
+        
+    }catch (e) {
+      console.log('The person is updated already');
+    }
+   } 
+
 }

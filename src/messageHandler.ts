@@ -38,7 +38,9 @@ const genresController = new GenresController(genresService);
 const personsService = new PersonsService(Person, professionsService);
 const personsController = new PersonsController(personsService);
 
-const moviesService = new MoviesService(Movie);
+const moviesService = new MoviesService(
+  Movie,
+  personsService);
 const moviesController = new MoviesController(moviesService);
 
 export default class MessageHandler{
@@ -52,32 +54,6 @@ export default class MessageHandler{
   {
         
     let response = {};
-    let {kinopoiskId} = data;
-
-    // console.log('the movie name from class is ', loaderToDatabase.movieName);
-    // console.log('the cast names are ', loaderToDatabase.actorName);
-    // console.log('the cast Links to pages are ', loaderToDatabase.actorLink);
-    // console.log('the actors KinopoiskIds are', loaderToDatabase.actorKinopoiskId);
-    // console.log('the poster is ', loaderToDatabase.moviePoster);
-    // console.log('the movie Original Name is', loaderToDatabase.movieOriginalName);
-    // console.log('the movie description is', loaderToDatabase.movieDescription);
-    // console.log('the movie trailer link is', loaderToDatabase.movieTrailerLink);
-    // console.log('the movie release year is', loaderToDatabase.movieYear);
-    // console.log('the movie length is', loaderToDatabase.movieLength);
-    // console.log('the movie ageRating is', loaderToDatabase.movieAgeRating);
-    // console.log('the genres names are', loaderToDatabase.genreName);
-    // console.log('the genres names English are', loaderToDatabase.genreNameEng);
-    // console.log('the countries names are', loaderToDatabase.countryName);
-    // console.log('the countries ids are', loaderToDatabase.countryId);
-    // console.log('the kinopoisk rate is', loaderToDatabase.movieRate);
-    // console.log('the details names are', loaderToDatabase.detailName);
-    // console.log('the details values are', loaderToDatabase.detailValue);
-    // console.log('the makers are', loaderToDatabase.personOccupation);
-    // console.log('the makers ids are', loaderToDatabase.personId);
-    // console.log('the similar films names are', loaderToDatabase.similarName);
-    // console.log('the similar films Urls are', loaderToDatabase.similarUrl);
-    // console.log('the similar films KinopoiskIds are', loaderToDatabase.similarKinopoiskId);
-    // console.log('the movie KinopoiskId is', loaderToDatabase.movieKinopoiskId);
 
     switch (routingKey) {
     case 'getCountries':
@@ -87,7 +63,6 @@ export default class MessageHandler{
       const {countryId} = data;
       response = await countriesController.getCountryById(countryId);
       break;
-
     case 'getDetails':
       response = await detailsController.getAll();
       break;
@@ -95,7 +70,6 @@ export default class MessageHandler{
       const {name} = data;
       response = await detailsController.getDetailByName(name);
       break;
-
     case 'getGenres':
       response = await genresController.getAll();
       break;
@@ -107,13 +81,15 @@ export default class MessageHandler{
       response = await moviesController.getAllMovies();
       break;
     case 'getMovie':
+      let {kinopoiskId} = data;
       response = await moviesController.getByKinopoiskId(kinopoiskId);
       break;
     case 'getPersons':
       response = await personsController.getAllPersons();
       break;
     case 'getPerson':
-      response = await personsController.getByKinopoiskId(kinopoiskId);
+      const {personKinopoiskId} = data;
+      response = await personsController.getByKinopoiskId(personKinopoiskId);
       break;
     case 'getProfessions':
       response = await professionsController.getAll();
@@ -137,7 +113,9 @@ export default class MessageHandler{
       await loaderToDatabase.putPersonsToDatabase();
       await loaderToDatabase.putSimilarMoviesToDatabase();
       await loaderToDatabase.putMoviesToDatabase();
-      
+      await loaderToDatabase.updatePersonsToMovie();
+      await loaderToDatabase.updateActorsToMovie();
+
       response = 'The new movie was created';
       break;
     default: response = 0;

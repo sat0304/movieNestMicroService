@@ -9,6 +9,7 @@ import { CountriesController } from './countries.controller';
 @Module({
   providers: [CountriesService],
   imports: [SequelizeModule.forFeature([Country, Movie, CountryMovie])],
-  controllers: [CountriesController]
+  controllers: [CountriesController],
+  exports: [CountriesService]
 })
 export class CountriesModule {}

@@ -14,7 +14,7 @@ export class MovieList {
   actorList = [];
   actorName = [];
   actorLink = [];
-  actorKinopoiskId = [];
+  actorKinopoiskIds = [];
 
   genreList = [];
   genreName = [];
@@ -29,7 +29,7 @@ export class MovieList {
   detailValue = [];
 
   personOccupation = [];
-  personId = [];
+  personIds = [];
 
   similarList = [];
   similarName = [];
@@ -91,14 +91,14 @@ async createCountryList(movieList: any) {
         this.detailValue.push(this.detailList[i].value);
       } else {
         this.personOccupation.push(this.detailList[i].name);
-        this.personId.push(this.detailList[i].value);
+        this.personIds.push(this.detailList[i].value);
       }
     }
     return (
       this.detailName,
       this.detailValue,
       this.personOccupation,
-      this.personId);
+      this.personIds);
   }
 
   async createActorList(movieList: any) {
@@ -106,15 +106,15 @@ async createCountryList(movieList: any) {
     for (let i = 0; i < this.actorList.length; i++) {
       this.actorName.push(this.actorList[i].name);
       this.actorLink.push(this.actorList[i].link);
-      this.actorKinopoiskId.push(this.actorList[i].kinopoiskId);
+      this.actorKinopoiskIds.push(this.actorList[i].kinopoiskId);
       this.personOccupation.push('Актер');
-      this.personId.push(Number(this.actorList[i].kinopoiskId));
+      this.personIds.push(Number(this.actorList[i].kinopoiskId));
 
     }
     return (
       this.actorName, 
       this.actorLink, 
-      this.actorKinopoiskId);
+      this.actorKinopoiskIds);
 }
 
   async createSimilarList(movieList: any) {

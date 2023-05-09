@@ -17,7 +17,7 @@ export class Person extends Model<Person> {
         allowNull: false,
         primaryKey: true,
         unique: true })
-    kinopoiskId: number;
+    personKinopoiskId: number;
 
     @Column({ type: DataType.STRING(255)})
     name: string;

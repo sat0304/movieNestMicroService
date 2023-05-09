@@ -19,6 +19,7 @@ import { MovieMovie } from './movies/movieMovie.model';
 import { ProfessionsModule } from './professions/professions.module';
 import { Profession } from './professions/professions.model';
 import { ProfessionPerson } from './persons/professionPerson.model';
+import { ActorMovie } from './movies/actorMovie.model';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ProfessionPerson } from './persons/professionPerson.model';
              Movie,
              Person,
              Profession,
+             ActorMovie,
              CountryMovie,
              DetailMovie,
              GenreMovie,

@@ -8,17 +8,19 @@ import { PersonsController } from './persons.controller';
 import { Profession } from '../professions/professions.model';
 import { ProfessionPerson } from './professionPerson.model';
 import { ProfessionsModule } from '../professions/professions.module';
+import { ActorMovie } from '../movies/actorMovie.model';
 
 @Module({
   providers: [PersonsService],
   imports: [ProfessionsModule,
     SequelizeModule.forFeature([
     Movie, 
-    Person, 
+    Person,
+    ActorMovie,
     PersonMovie,
     Profession,
     ProfessionPerson])],
-  // exports: [PersonsService],
+  exports: [PersonsService],
   controllers: [PersonsController]
 })
 export class PersonsModule {}

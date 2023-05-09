@@ -12,9 +12,9 @@ export class PersonsController {
         return await this.personService.createPerson(dto, nameProfession);
     }
 
-    @Get('/:kinopoiskId')
-    async getByKinopoiskId(@Param('kinopoiskId') kinopoiskId: any  ) {
-        return await this.personService.getPersonByKinopoiskId(kinopoiskId);
+    @Get('/:personKinopoiskId')
+    async getByKinopoiskId(@Param('personKinopoiskIdd') personKinopoiskId: number  ) {
+        return await this.personService.getPersonByKinopoiskId(personKinopoiskId);
     }
 
     @Get()
