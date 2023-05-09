@@ -37,7 +37,8 @@ const moviesService = new MoviesService(
   Movie,
   personsService,
   countriesService,
-  genresService);
+  genresService,
+  detailsService);
 const moviesController = new MoviesController(moviesService);
 
 export class LoaderToDatabase {
@@ -61,7 +62,12 @@ export class LoaderToDatabase {
   async putDetailsToDatabase() {
     try {
       for (let i = 0; i < this.parsedData.detailList.length; i++) {
-        let name = this.parsedData.detailName[i];
+        let name = 'detail_'
+          + i
+          + '_of_'
+          + this.parsedData.movieKinopoiskId 
+          + '_' 
+          + this.parsedData.detailName[i];
         let value = this.parsedData.detailValue[i];
         await detailsController.create({
           name, 
@@ -245,7 +251,23 @@ async putPersonsToDatabase() {
       );
         
     }catch (e) {
-      console.log('The country is updated already', 100003);
+      console.log('The genre is updated already', 100004);
     }
-   }
+  }
+
+  async updateDetailsToMovie() {
+    try {
+      const details = [];
+      for (let i = 0; i < this.parsedData.detailName.length; i++){
+        details.push(this.parsedData.detailName[i]);
+        };
+      await moviesController.updateDetail(
+        this.parsedData.movieKinopoiskId,
+        details,
+      );
+        
+    }catch (e) {
+      console.log('The detail is updated already', 100005);
+    }
+  }
 }

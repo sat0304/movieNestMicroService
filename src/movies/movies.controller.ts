@@ -57,4 +57,13 @@ export class MoviesController {
         kinopoiskId, 
         genres);
     }
+
+    @Patch(':kinopoiskId')
+    async updateDetail(
+        @Param('kinopoiskId') kinopoiskId: number,
+        details: string[]) {
+      return await this.movieService.updateDetailInMovie(
+        kinopoiskId, 
+        details);
+    }
 }

@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { PersonsService } from '../persons/persons.service';
 import { CountriesService } from '../countries/countries.service';
 import { GenresService } from '../genres/genres.service';
+import { DetailsService } from '../details/details.service';
 
 @Injectable()
 export class MoviesService {
@@ -13,7 +14,8 @@ export class MoviesService {
         @InjectModel(Movie) private movieRepo: typeof Movie,
         private personService: PersonsService,
         private countryService: CountriesService,
-        private genreService: GenresService) {}
+        private genreService: GenresService,
+        private detailService: DetailsService) {}
 
     async createMovie( dto: CreateMovieDto ) {
         const movie = await this.movieRepo.create(dto);
@@ -83,6 +85,19 @@ export class MoviesService {
             let genre = await this.genreService.getGenreByName(
                 genres[i]);
             await movie.$add( 'genres', [genre.genreEng] );
+        }
+        return movie;
+    }
+
+    async updateDetailInMovie( 
+        kinopoiskId: number, 
+        details: string[] ) {
+        const movie = await this.movieRepo.findOne(
+            {where: { kinopoiskId }});
+        for (let i = 0; i < details.length; i++) {
+            let detail = await this.detailService.getDetailByName(
+                details[i]);
+            await movie.$add( 'details', [detail.id] );
         }
         return movie;
     }
