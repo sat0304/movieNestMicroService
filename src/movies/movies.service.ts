@@ -35,20 +35,14 @@ export class MoviesService {
         actorKinopoiskIds: number[] ) {
         const movie = await this.movieRepo.findOne(
             {where: { kinopoiskId }});
-        // const actorId = await this.personService.getPersonByKinopoiskId(
-        //     personKinopoiskId);
-        // await movie.$set( 'actors', [actorId.personKinopoiskId] )
-        // const actorData: Person = await this.personService.getPersonByKinopoiskId(
-        //     personKinopoiskId);
-        // movie.actors.push(actorData); 
+
         for (let i = 0; i < actorKinopoiskIds.length; i++) {
             let actor = await this.personService.getPersonByKinopoiskId(
                     actorKinopoiskIds[i]);
-            console.log('actor KinopoiskId) ..', actorKinopoiskIds[i]);
-            await movie.$set( 'actors', [actor.personKinopoiskId] );
+            console.log('actor KinopoiskId:) ..', actorKinopoiskIds[i]);
+            await movie.$add( 'actors', [actor.personKinopoiskId] );
             await movie.save();
         }
-        await movie.save();
         return movie;
     }
 
@@ -57,19 +51,11 @@ export class MoviesService {
         personKinopoiskIds: number[] ) {
         const movie = await this.movieRepo.findOne(
             {where: { kinopoiskId }});
-
-        // const personId = await this.personService.getPersonByKinopoiskId(
-        //     personKinopoiskId);
-        // await movie.$set( 'persons', [personId.personKinopoiskId] );
-        // const personData: Person = await this.personService.getPersonByKinopoiskId(
-        //     personKinopoiskId);
-        // movie.persons.push(personData); 
         for (let i = 0; i < personKinopoiskIds.length; i++) {
             let person = await this.personService.getPersonByKinopoiskId(
                     personKinopoiskIds[i]);
-            console.log('person  KinopoiskIds) \\ ', personKinopoiskIds[i]);
-            await movie.$set( 'persons', [person.personKinopoiskId] );
-            await movie.save();
+            console.log(personKinopoiskIds[i], ' person  KinopoiskIds:):) \\ ');
+            await movie.$add( 'persons', [person.personKinopoiskId] );
         }
         return movie;
     }

@@ -52,7 +52,7 @@ export class LoaderToDatabase {
           countryId});
       }
     }catch (e) {
-      console.log('The country already exists');
+      console.log('The country already exists', 90001);
   }
 }
 
@@ -66,7 +66,7 @@ export class LoaderToDatabase {
           value});
       }
     }catch (e) {
-      console.log('The detail already exists');
+      console.log('The detail already exists', 90002);
  }
 }
 
@@ -77,7 +77,7 @@ async putProfessionsToDatabase() {
       await professionsController.create({ profession});
     }
   }catch (e) {
-    console.log('The profession already exists');
+    console.log('The profession already exists', 90003);
 }
 }
 
@@ -89,7 +89,7 @@ async putProfessionsToDatabase() {
         await genresController.create({ genreEng, genre });
       }
     }catch (e) {
-      console.log('The genre already exists');
+      console.log('The genre already exists', 90004);
   }
 }
 
@@ -119,7 +119,7 @@ async putPersonsToDatabase() {
       }, 'Актер');
     }
   }catch (e) {
-    console.log('The person already exists');
+    console.log('The person already exists', 90005);
   }
  }
 
@@ -150,7 +150,7 @@ async putPersonsToDatabase() {
       });
     }
   } catch (e) {
-    console.log('The movie already exists');
+    console.log('The movie already exists', 90006 );
   }
 }
 
@@ -180,13 +180,12 @@ async putPersonsToDatabase() {
         rate
       });
     } catch (e) {
-      console.log('The movie already exists');
+      console.log('The movie already exists', 90007);
     }
   }
 
   async updateActorsToMovie() {
     try {
-      console.log('actorKinopoiskIds) ..', this.parsedData.actorKinopoiskIds);
       await moviesController.updateActor
       (
         this.parsedData.movieKinopoiskId,
@@ -194,26 +193,25 @@ async putPersonsToDatabase() {
       );
       
     }catch (e) {
-      console.log('The actor is updated already');
+      console.log('The actor is updated already', 100001);
     }
    }
 
    async updatePersonsToMovie() {
     try {
-      let personKinopoiskIds: number[];
+      const personKinopoiskIds = [];
       for (let i = 0; i < this.parsedData.personIds.length; i++){
           for (let j = 0; j < this.parsedData.personIds[i].length; j++) {
             personKinopoiskIds.push(this.parsedData.personIds[i][j]);
           };
         };
-      console.log('personKinopoiskIds *** ', personKinopoiskIds);
       await moviesController.updatePerson(
         this.parsedData.movieKinopoiskId,
         personKinopoiskIds,
       );
         
     }catch (e) {
-      console.log('The person is updated already');
+      console.log('The person is updated already', 100002);
     }
    } 
 

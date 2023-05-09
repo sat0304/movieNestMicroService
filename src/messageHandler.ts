@@ -106,9 +106,9 @@ export default class MessageHandler{
       await movieList.createActorList(data);
       await movieList.createSimilarList(data);
 
+      await loaderToDatabase.putCountriesToDatabase();
       await loaderToDatabase.putDetailsToDatabase();
       await loaderToDatabase.putProfessionsToDatabase();
-      await loaderToDatabase.putCountriesToDatabase();
       await loaderToDatabase.putGenresToDatabase();
       await loaderToDatabase.putPersonsToDatabase();
       await loaderToDatabase.putSimilarMoviesToDatabase();
