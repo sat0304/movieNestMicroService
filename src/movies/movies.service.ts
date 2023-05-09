@@ -101,13 +101,15 @@ export class MoviesService {
     }
 
     async updateSimilarMovie( 
-        kinopoiskId: number,
+        ownKinopoiskId: number,
         similarIds: number[] ) {
+        let kinopoiskId = ownKinopoiskId;
         const movie = await this.movieRepo.findOne(
             {where: { kinopoiskId }});
         for (let i = 0; i < similarIds.length; i++) {
             let similarMovie = await this.getMovieByKinopoiskId(
                 similarIds[i]);
+            kinopoiskId = similarIds[i];
             await movie.$add( 'similarFilms', [similarMovie.kinopoiskId] );
         }
         return movie;

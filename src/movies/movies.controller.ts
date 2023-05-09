@@ -69,10 +69,10 @@ export class MoviesController {
 
     @Patch(':kinopoiskId')
     async updateSimilar(
-        @Param('kinopoiskId') kinopoiskId: number,
+        ownKinopoiskId: number,
         kinopoiskIds: number[]) {
       return await this.movieService.updateSimilarMovie(
-        kinopoiskId, 
+        ownKinopoiskId,
         kinopoiskIds);
     }
 }
