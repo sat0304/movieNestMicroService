@@ -94,24 +94,20 @@ export class MoviesService {
         for (let i = 0; i < details.length; i++) {
             let detail = await this.detailService.getDetailByName(
                 details[i]);
-            console.log('details//////  ', details[i])
             await movie.$add( 'details', [detail.name] );
         }
         return movie;
     }
 
     async updateSimilarMovie( 
-        ownKinopoiskId: number,
-        similarIds: number[] ) {
-        let kinopoiskId = ownKinopoiskId;
+        kinopoiskId: number,
+        similarIds: Movie[] ) {
         const movie = await this.movieRepo.findOne(
             {where: { kinopoiskId }});
         for (let i = 0; i < similarIds.length; i++) {
-            let similarMovie = await this.getMovieByKinopoiskId(
-                similarIds[i]);
-            kinopoiskId = similarIds[i];
-            await movie.$add( 'similarFilms', [similarMovie.kinopoiskId] );
-        }
+          if (kinopoiskId != similarIds[i].kinopoiskId) {
+            await movie.$add( 'similarFilms', [similarIds[i].kinopoiskId] );
+        }}
         return movie;
     }
 }

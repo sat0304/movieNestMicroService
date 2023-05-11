@@ -1,5 +1,6 @@
 import { Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { Movie } from "./movies.model";
+import { Similar } from "../similars/similars.model";
 
 
 
@@ -12,17 +13,17 @@ export class MovieMovie extends Model<MovieMovie> {
             primaryKey: true })
     id: number;
 
+    @ForeignKey(() => Similar)
+    @Column({type: DataType.INTEGER})
+    similarFilm_kinopoiskId: number;
+
     @ForeignKey(() => Movie)
     @Column({type: DataType.INTEGER})
-    movie_kinopoiskId: number;
-    
-    @ForeignKey(() => Movie)
-    @Column({type: DataType.INTEGER})
-    similarMovie_kinopoiskId: number;
+    film_kinopoiskId: number;
 
     indexes: [
         {
           unique: true,
-          fields: ['similarMovie_kinopoiskId', 'movie_kinopoiskId']
+          fields: ['similarFilm_kinopoiskId', 'film_kinopoiskId']
         },]
 }

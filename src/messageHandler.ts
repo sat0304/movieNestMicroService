@@ -19,6 +19,9 @@ import { Profession } from "./professions/professions.model";
 import { ProfessionsService } from "./professions/professions.service";
 import { LoaderToDatabase } from "./putterToDatabase";
 import rabbitClient from "./rabbitMQ/client";
+import { SimilarsController } from "./similars/similars.controller";
+import { Similar } from "./similars/similars.model";
+import { SimilarsService } from "./similars/similars.service";
 
 const movieList = new MovieList();
 const loaderToDatabase = new LoaderToDatabase(movieList);
@@ -37,6 +40,9 @@ const genresController = new GenresController(genresService);
 
 const personsService = new PersonsService(Person, professionsService);
 const personsController = new PersonsController(personsService);
+
+const similarsService = new SimilarsService(Similar);
+const similarsController = new SimilarsController(similarsService);
 
 const moviesService = new MoviesService(
   Movie,
@@ -93,6 +99,13 @@ export default class MessageHandler{
     case 'getPerson':
       const {personKinopoiskId} = data;
       response = await personsController.getByKinopoiskId(personKinopoiskId);
+      break;
+    case 'getSimilars':
+      response = await similarsController.getAllSimilars();
+      break;
+    case 'getSimilar':
+      const {similarKinopoiskId} = data;
+      response = await similarsController.getSimilarByKinopoiskId(similarKinopoiskId);
       break;
     case 'getProfessions':
       response = await professionsController.getAll();

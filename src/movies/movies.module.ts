@@ -17,6 +17,8 @@ import { CountriesModule } from '../countries/countries.module';
 import { DetailsModule } from '../details/details.module';
 import { GenresModule } from '../genres/genres.module';
 import { ActorMovie } from './actorMovie.model';
+import { Similar } from '../similars/similars.model';
+import { SimilarsModule } from '../similars/similars.module';
 
 @Module({
   controllers: [MoviesController],
@@ -25,12 +27,14 @@ import { ActorMovie } from './actorMovie.model';
     CountriesModule,
     DetailsModule,
     GenresModule,
+    SimilarsModule,
     PersonsModule,
     SequelizeModule.forFeature(
     [ Country,
       Genre,
       Detail,
       Movie,
+      Similar,
       Person,
       ActorMovie,
       CountryMovie,

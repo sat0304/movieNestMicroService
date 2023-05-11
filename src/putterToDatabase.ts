@@ -17,6 +17,9 @@ import { PersonsService } from "./persons/persons.service";
 import { ProfessionsController } from "./professions/professions.controller";
 import { Profession } from "./professions/professions.model";
 import { ProfessionsService } from "./professions/professions.service";
+import { SimilarsController } from "./similars/similars.controller";
+import { Similar } from "./similars/similars.model";
+import { SimilarsService } from "./similars/similars.service";
 
 const professionsService = new ProfessionsService(Profession);
 const professionsController = new ProfessionsController(professionsService);
@@ -32,6 +35,9 @@ const detailsController = new DetailsController(detailsService);
 
 const genresService = new GenresService(Genre);
 const genresController = new GenresController(genresService);
+
+const similarsService = new SimilarsService(Similar);
+const similarsController = new SimilarsController(similarsService);
 
 const moviesService = new MoviesService(
   Movie,
@@ -129,31 +135,17 @@ async putPersonsToDatabase() {
  async putSimilarMoviesToDatabase() {
   try {
     for (let i = 0; i < this.parsedData.similarList.length; i++) {
-      let kinopoiskId = this.parsedData.similarKinopoiskId[i];
+      let similarKinopoiskId = this.parsedData.similarKinopoiskId[i];
       let name = this.parsedData.similarName[i];
-      let originalName = '';
-      let description = '';
-      let poster = '';
-      let trailerLink = '';
-      let year = null;
-      let movieLength = '';
-      let ageRating = '';
-      let rate = '';
-      await moviesController.create({
-        kinopoiskId,
+      let url = this.parsedData.similarUrl[i];
+      await similarsController.create({
+        similarKinopoiskId,
         name,  
-        originalName,
-        description,
-        poster,
-        trailerLink,
-        year,
-        movieLength,
-        ageRating,
-        rate
+        url
       });
     }
   } catch (e) {
-    console.log('The movie already exists', 90006 );
+    console.log('The similar movie already exists', 90006 );
   }
 }
 
@@ -270,7 +262,11 @@ async putPersonsToDatabase() {
     try {
       const similarMovies = [];
       for (let i = 0; i < this.parsedData.similarKinopoiskId.length; i++){
-        similarMovies.push(this.parsedData.similarKinopoiskId[i]);
+        if (this.parsedData.movieKinopoiskId != this.parsedData.similarKinopoiskId[i]) {
+          similarMovies.push(
+            await moviesController.getByKinopoiskId(this.parsedData.similarKinopoiskId[i]));
+        }
+
         };
       await moviesController.updateSimilar(
         this.parsedData.movieKinopoiskId,

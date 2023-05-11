@@ -20,6 +20,8 @@ import { ProfessionsModule } from './professions/professions.module';
 import { Profession } from './professions/professions.model';
 import { ProfessionPerson } from './persons/professionPerson.model';
 import { ActorMovie } from './movies/actorMovie.model';
+import { SimilarsModule } from './similars/similars.module';
+import { Similar } from './similars/similars.model';
 
 @Module({
   imports: [
@@ -37,6 +39,7 @@ import { ActorMovie } from './movies/actorMovie.model';
              Detail, 
              Genre,
              Movie,
+             Similar,
              Person,
              Profession,
              ActorMovie,
@@ -55,6 +58,7 @@ import { ActorMovie } from './movies/actorMovie.model';
     DetailsModule,
     CountriesModule,
     ProfessionsModule,
+    SimilarsModule,
 ],
   controllers: [],
   providers: [],
