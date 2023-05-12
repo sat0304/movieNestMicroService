@@ -44,7 +44,8 @@ const moviesService = new MoviesService(
   personsService,
   countriesService,
   genresService,
-  detailsService);
+  detailsService,
+  similarsService);
 const moviesController = new MoviesController(moviesService);
 
 export class LoaderToDatabase {
@@ -262,11 +263,7 @@ async putPersonsToDatabase() {
     try {
       const similarMovies = [];
       for (let i = 0; i < this.parsedData.similarKinopoiskId.length; i++){
-        if (this.parsedData.movieKinopoiskId != this.parsedData.similarKinopoiskId[i]) {
-          similarMovies.push(
-            await moviesController.getByKinopoiskId(this.parsedData.similarKinopoiskId[i]));
-        }
-
+          similarMovies.push(this.parsedData.similarKinopoiskId[i]);
         };
       await moviesController.updateSimilar(
         this.parsedData.movieKinopoiskId,

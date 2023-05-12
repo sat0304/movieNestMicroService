@@ -6,6 +6,7 @@ import { PersonsService } from '../persons/persons.service';
 import { CountriesService } from '../countries/countries.service';
 import { GenresService } from '../genres/genres.service';
 import { DetailsService } from '../details/details.service';
+import { SimilarsService } from '../similars/similars.service';
 
 @Injectable()
 export class MoviesService {
@@ -15,7 +16,8 @@ export class MoviesService {
         private personService: PersonsService,
         private countryService: CountriesService,
         private genreService: GenresService,
-        private detailService: DetailsService) {}
+        private detailService: DetailsService,
+        private similarService: SimilarsService,) {}
 
     async createMovie( dto: CreateMovieDto ) {
         const movie = await this.movieRepo.create(dto);
@@ -101,13 +103,14 @@ export class MoviesService {
 
     async updateSimilarMovie( 
         kinopoiskId: number,
-        similarIds: Movie[] ) {
+        similarIds: number[] ) {
         const movie = await this.movieRepo.findOne(
             {where: { kinopoiskId }});
         for (let i = 0; i < similarIds.length; i++) {
-          if (kinopoiskId != similarIds[i].kinopoiskId) {
-            await movie.$add( 'similarFilms', [similarIds[i].kinopoiskId] );
-        }}
+          let similar =  await this.similarService.getSimilarByKinopoiskId(
+            similarIds[i]);
+            await movie.$add( 'similarFilms', [similar.similarKinopoiskId] );
+        }
         return movie;
     }
 }

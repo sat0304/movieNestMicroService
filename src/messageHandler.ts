@@ -49,7 +49,8 @@ const moviesService = new MoviesService(
   personsService,
   countriesService,
   genresService,
-  detailsService);
+  detailsService,
+  similarsService);
 const moviesController = new MoviesController(moviesService);
 
 export default class MessageHandler{

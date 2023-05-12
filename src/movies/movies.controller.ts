@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateMovieDto } from './dto/createMovieDto';
 import { MoviesService } from './movies.service';
-import { Movie } from './movies.model';
 
 @Controller('movies')
 export class MoviesController {
@@ -68,10 +67,10 @@ export class MoviesController {
         details);
     }
 
-    @Patch(':kinopoiskId')
+    @Patch(':similarKinopoiskId')
     async updateSimilar(
         kinopoiskId: number,
-        kinopoiskIds: Movie[]) {
+        kinopoiskIds: number[]) {
       return await this.movieService.updateSimilarMovie(
         kinopoiskId,
         kinopoiskIds);
