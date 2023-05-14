@@ -28,5 +28,4 @@ export class PersonsService {
         const persons = await this.personRepo.findAll({include: { all: true}});
         return persons;
     }
-
 }

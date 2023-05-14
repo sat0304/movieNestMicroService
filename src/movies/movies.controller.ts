@@ -22,7 +22,7 @@ export class MoviesController {
         return await this.movieService.getAllMovies();
     }
 
-    @Patch(':kinopoiskId')
+    @Patch('/:kinopoiskId')
     async updateActor(
         @Param('kinopoiskId') kinopoiskId: number,
         personKinopoiskIds: number[]) {
@@ -31,7 +31,7 @@ export class MoviesController {
         personKinopoiskIds);
     }
 
-    @Patch(':kinopoiskId')
+    @Patch('/:kinopoiskId')
     async updatePerson(
         @Param('kinopoiskId') kinopoiskId: number,
         personKinopoiskIds: number[]) {
@@ -40,7 +40,7 @@ export class MoviesController {
         personKinopoiskIds);
     }
 
-    @Patch(':kinopoiskId')
+    @Patch('/:kinopoiskId')
     async updateCountry(
         @Param('kinopoiskId') kinopoiskId: number,
         countryIds: number[]) {
@@ -49,7 +49,7 @@ export class MoviesController {
         countryIds);
     }
 
-    @Patch(':kinopoiskId')
+    @Patch('/:kinopoiskId')
     async updateGenre(
         @Param('kinopoiskId') kinopoiskId: number,
         genres: string[]) {
@@ -58,7 +58,7 @@ export class MoviesController {
         genres);
     }
 
-    @Patch(':kinopoiskId')
+    @Patch('/:kinopoiskId')
     async updateDetail(
         @Param('kinopoiskId') kinopoiskId: number,
         details: string[]) {
@@ -67,7 +67,7 @@ export class MoviesController {
         details);
     }
 
-    @Patch(':similarKinopoiskId')
+    @Patch('/:similarKinopoiskId')
     async updateSimilar(
         kinopoiskId: number,
         kinopoiskIds: number[]) {
