@@ -1,0 +1,49 @@
+version: '3.3'
+services:
+
+  node_engine:
+    image: node:18.15-alpine
+
+  iface_to_dbases:
+    image: sat0304/iface_to_dbases:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - iface_server:/app/i-face-to-dbases/
+      - iface_modules:/app/i-face-to-dbases/node_modules/
+    command: npm run start
+    restart: always
+
+  movie_db:
+    image: postgres:14-alpine
+    ports:
+      - "5439:5439"
+    depends_on:
+      - iface_to_dbases
+    volumes:
+      - movie_data:/var/lib/postgresql/data/
+    restart: always
+
+  movie_service:
+    image: sat0304/movie_server:latest
+    environment:
+      POSTGRES_DB: "movie_db"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_USER: "postgres1"
+      POSTGRES_PASSWORD: "Spges3spges"
+      POSTGRES_HOST: "movie_db"
+    volumes:
+      - movie_server:/app/movie_server/
+      - movie_modules:/app/movie_server/node_modules/
+    command: npm run start
+    depends_on:
+      - iface_to_dbases
+      - movie_db
+    restart: always
+
+volumes:
+  movie_data:
+  iface_server:
+  iface_modules:
+  movie_server:
+  movie_modules:
