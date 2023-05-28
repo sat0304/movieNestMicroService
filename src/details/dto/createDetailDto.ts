@@ -3,4 +3,5 @@
 export class CreateDetailDto {
     name: string;
     value: string;
+    movieKinopoiskId: number;
 }

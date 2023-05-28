@@ -11,7 +11,6 @@ import { Person } from './persons/persons.model';
 import { Detail } from './details/details.model';
 import { Country } from './countries/countries.model';
 import { CountryMovie } from './movies/countryMovie.model';
-import { DetailMovie } from './movies/detailsMovie.model';
 import { Movie } from './movies/movies.model';
 import { GenreMovie } from './movies/genreMovie.model';
 import { PersonMovie } from './movies/personMovie.model';
@@ -44,7 +43,6 @@ import { Similar } from './similars/similars.model';
              Profession,
              ActorMovie,
              CountryMovie,
-             DetailMovie,
              GenreMovie,
              MovieMovie,
              PersonMovie,

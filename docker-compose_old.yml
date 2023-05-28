@@ -28,7 +28,6 @@ services:
     image: sat0304/movie_server:latest
     environment:
       POSTGRES_DB: "movie_db"
-      POSTGRES_HOST_AUTH_METHOD: "trust"
       POSTGRES_USER: "postgres1"
       POSTGRES_PASSWORD: "Spges3spges"
       POSTGRES_HOST: "movie_db"
@@ -37,7 +36,6 @@ services:
       - movie_modules:/app/movie_server/node_modules/
     command: npm run start
     depends_on:
-      - iface_to_dbases
       - movie_db
     restart: always
 

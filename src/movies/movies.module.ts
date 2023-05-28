@@ -6,7 +6,6 @@ import { Detail } from '../details/details.model';
 import { Country } from '../countries/countries.model';
 import { Person } from '../persons/persons.model';
 import { Genre } from '../genres/genres.model';
-import { DetailMovie } from './detailsMovie.model';
 import { CountryMovie } from './countryMovie.model';
 import { GenreMovie } from './genreMovie.model';
 import { PersonMovie } from './personMovie.model';
@@ -38,7 +37,6 @@ import { SimilarsModule } from '../similars/similars.module';
       Person,
       ActorMovie,
       CountryMovie,
-      DetailMovie,
       GenreMovie,
       MovieMovie,
       PersonMovie]

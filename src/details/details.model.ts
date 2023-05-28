@@ -1,5 +1,4 @@
-import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
-import { DetailMovie } from "../movies/detailsMovie.model";
+import { Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { Movie } from "../movies/movies.model";
 
 
@@ -18,6 +17,7 @@ export class Detail extends Model<Detail> {
     @Column({ type: DataType.STRING})
     value: string;
 
-    @BelongsToMany( () => Movie, () => DetailMovie)
-    movies: Movie[];
+    @ForeignKey(() => Movie)
+    @Column({type: DataType.INTEGER})
+    movieKinopoiskId: number;
 }

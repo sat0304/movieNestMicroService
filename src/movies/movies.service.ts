@@ -25,13 +25,16 @@ export class MoviesService {
     }
 
     async getMovieByKinopoiskId( kinopoiskId: any ) {
-        const movie = await this.movieRepo.findOne({where: { kinopoiskId }});
+        const movie = await this.movieRepo.findOne({
+            where: { kinopoiskId },
+            include: { all: true } 
+        });
         return movie;
     }
 
     async getAllMovies() {
-        // const movies = await this.movieRepo.findAll();
-        const movies = await this.movieRepo.findAll({include: { all: true}});
+        const movies = await this.movieRepo.findAll();
+        // const movies = await this.movieRepo.findAll({include: { all: true}});
         return movies;
     }
 

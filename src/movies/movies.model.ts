@@ -1,6 +1,7 @@
 import {BelongsToMany,
         Column, 
         DataType,
+        HasMany,
         Model, 
         Table } from "sequelize-typescript";
 import { Country } from "../countries/countries.model";
@@ -8,7 +9,6 @@ import { Genre } from "../genres/genres.model";
 import { Person } from "../persons/persons.model";
 import { Detail } from "../details/details.model";
 import { CountryMovie } from "./countryMovie.model";
-import { DetailMovie } from "./detailsMovie.model";
 import { GenreMovie } from "./genreMovie.model";
 import { PersonMovie } from "./personMovie.model";
 import { MovieMovie } from "./movieMovie.model";
@@ -61,7 +61,7 @@ export class Movie extends Model<Movie> {
     @BelongsToMany( () => Country, () => CountryMovie)
     countries: Country[];
 
-    @BelongsToMany( () => Detail, () => DetailMovie)
+    @HasMany(() => Detail)
     details: Detail[];
 
     @BelongsToMany( () => Person, () => PersonMovie)
