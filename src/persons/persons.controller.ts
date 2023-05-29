@@ -21,4 +21,9 @@ export class PersonsController {
     async getAllPersons() {
         return await this.personService.getAllPersons();
     }
+
+    @Get()
+    async getAllActors() {
+        return await this.personService.getAllActors();
+    }
 }

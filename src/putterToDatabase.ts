@@ -73,9 +73,10 @@ export class LoaderToDatabase {
         let name = this.parsedData.detailName[i];
         let value = this.parsedData.detailValue[i];
         await detailsController.create({
-          name, 
+          name,
           value,
-          movieKinopoiskId});
+          movieKinopoiskId
+        });
       }
     }catch (e) {
       console.log('The detail already exists', 90002);

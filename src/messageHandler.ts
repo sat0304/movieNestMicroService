@@ -64,6 +64,7 @@ export default class MessageHandler{
   {
         
     let response = {};
+    const {kinopoiskId} = data;
 
     switch (routingKey) {
     case 'getCountries':
@@ -74,9 +75,11 @@ export default class MessageHandler{
       response = await countriesController.getCountryById(countryId);
       break;
     case 'getDetails':
+      await moviesController.getByKinopoiskId(kinopoiskId);
       response = await detailsController.getAll();
       break;
     case 'getDetail':
+      await moviesController.getByKinopoiskId(kinopoiskId);
       const {name} = data;
       response = await detailsController.getDetailByName(name);
       break;
@@ -91,13 +94,15 @@ export default class MessageHandler{
       response = await moviesController.getAllMovies();
       break;
     case 'getMovie':
-      let {kinopoiskId} = data;
       response = await moviesController.getByKinopoiskId(kinopoiskId);
       break;
-    case 'getPersons':
+    case 'getMovieActors':
+      response = await personsController.getAllActors();
+      break;
+    case 'getMoviePersons':
       response = await personsController.getAllPersons();
       break;
-    case 'getPerson':
+    case 'getMoviePerson':
       const {personKinopoiskId} = data;
       response = await personsController.getByKinopoiskId(personKinopoiskId);
       break;

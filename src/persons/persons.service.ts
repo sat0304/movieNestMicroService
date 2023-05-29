@@ -28,4 +28,15 @@ export class PersonsService {
         const persons = await this.personRepo.findAll({include: { all: true}});
         return persons;
     }
+
+    async getAllActors() {
+        // const persons = await this.personRepo.findAll();
+        const persons = await this.personRepo.findAll({
+            where: {
+                professions: {
+                  profession: 'Актер'}
+                }
+        });
+        return persons;
+    }
 }

@@ -13,7 +13,7 @@ export class MoviesController {
     }
 
     @Get('/:kinopoiskId')
-    async getByKinopoiskId(@Param('kinopoiskId') kinopoiskId: any  ) {
+    async getByKinopoiskId(@Param('kinopoiskId') kinopoiskId: number  ) {
         return await this.movieService.getMovieByKinopoiskId( kinopoiskId );
     }
 
