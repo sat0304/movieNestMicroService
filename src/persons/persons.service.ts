@@ -25,17 +25,16 @@ export class PersonsService {
 
     async getAllPersons() {
         // const persons = await this.personRepo.findAll();
-        const persons = await this.personRepo.findAll({include: { all: true}});
+        const persons = await this.personRepo.findAll();
         return persons;
     }
 
     async getAllActors() {
         // const persons = await this.personRepo.findAll();
+        // const occupation = await this.professionService.getProfessionByName('Актер');
         const persons = await this.personRepo.findAll({
-            where: {
-                professions: {
-                  profession: 'Актер'}
-                }
+            include:{
+            where: { 'profession': 'Актер' }}
         });
         return persons;
     }
