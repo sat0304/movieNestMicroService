@@ -3,6 +3,7 @@ import { CreatePersonDto } from './dto/createPersonDto';
 import { Person } from './persons.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { ProfessionsService } from '../professions/professions.service';
+import { Profession } from '../professions/professions.model';
 
 @Injectable()
 export class PersonsService {
@@ -33,8 +34,14 @@ export class PersonsService {
         // const persons = await this.personRepo.findAll();
         // const occupation = await this.professionService.getProfessionByName('Актер');
         const persons = await this.personRepo.findAll({
-            include:{
-            where: { 'profession': 'Актер' }}
+            include: { 
+                model: Profession, 
+                as: 'professions',
+                where: {
+                    profession: 'Актер'
+                    
+                }
+            }
         });
         return persons;
     }

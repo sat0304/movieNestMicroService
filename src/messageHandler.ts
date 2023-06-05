@@ -97,7 +97,11 @@ export default class MessageHandler{
       response = await moviesController.getByKinopoiskId(kinopoiskId);
       break;
     case 'getMovieActors':
-      response = await personsController.getAllActors();
+      try {
+        response = await personsController.getAllActors();
+      } catch(error){
+        console.log(error);
+      }
       break;
     case 'getMoviePersons':
       response = await personsController.getAllPersons();
