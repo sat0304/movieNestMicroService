@@ -39,7 +39,12 @@ export class MoviesService {
     }
 
     async getAllMovies() {
-        const movies = await this.movieRepo.findAll();
+        const movies = await this.movieRepo.findAll({
+            order: [
+                ['name', 'ASC'],
+                ['year', 'DESC'],
+            ]
+            });
         // const movies = await this.movieRepo.findAll({include: { all: true}});
         return movies;
     }

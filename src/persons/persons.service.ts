@@ -4,6 +4,7 @@ import { Person } from './persons.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { ProfessionsService } from '../professions/professions.service';
 import { Profession } from '../professions/professions.model';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class PersonsService {
@@ -38,8 +39,9 @@ export class PersonsService {
                 model: Profession, 
                 as: 'professions',
                 where: {
-                    profession: 'Актер'
-                    
+                    profession: {
+                    [Op.eq]: 'Актер'
+                    }
                 }
             }
         });
