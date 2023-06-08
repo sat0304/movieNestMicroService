@@ -22,6 +22,11 @@ export class MoviesController {
         return await this.movieService.getAllMovies();
     }
 
+    @Get()
+    async getPersonMovies(personKinopoiskId) {
+      return await this.movieService.getPersonMovies(personKinopoiskId);
+  }
+
     @Patch('/:kinopoiskId')
     async updateActor(
         @Param('kinopoiskId') kinopoiskId: number,

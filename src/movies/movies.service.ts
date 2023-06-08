@@ -7,6 +7,8 @@ import { CountriesService } from '../countries/countries.service';
 import { GenresService } from '../genres/genres.service';
 import { DetailsService } from '../details/details.service';
 import { SimilarsService } from '../similars/similars.service';
+import { Person } from '../persons/persons.model';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class MoviesService {
@@ -46,6 +48,21 @@ export class MoviesService {
             ]
             });
         // const movies = await this.movieRepo.findAll({include: { all: true}});
+        return movies;
+    }
+
+    async getPersonMovies(personKinopoiskId: number) {
+        const movies = await this.movieRepo.findAll({
+            include: { 
+                model: Person, 
+                as: 'actors',
+                where: {
+                    personKinopoiskId: {
+                    [Op.eq]: personKinopoiskId
+                    }
+                }
+            }
+        });
         return movies;
     }
 
