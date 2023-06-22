@@ -85,13 +85,10 @@ async createCountryList(movieList: any) {
 
   async createDetailList(movieList: any) {
     this.detailList = movieList.entityJSON.encyclopedia;
-    const movieIdForDetail = this.movieKinopoiskId;
+    // const movieIdForDetail = this.movieKinopoiskId;
     for (let i = 0; i < this.detailList.length; i++) {
       if (this.detailList[i].type == 'details') {
-        this.detailName.push(
-          this.detailList[i].name
-          + ' '
-          + movieIdForDetail);
+        this.detailName.push(this.detailList[i].name);
         this.detailValue.push(this.detailList[i].value);
       } else {
         this.personOccupation.push(this.detailList[i].name);

@@ -4,7 +4,8 @@ import { Person } from './persons.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { ProfessionsService } from '../professions/professions.service';
 import { Profession } from '../professions/professions.model';
-import { Op } from 'sequelize';
+import { Op, and } from 'sequelize';
+import { Movie } from '../movies/movies.model';
 
 @Injectable()
 export class PersonsService {
@@ -46,5 +47,63 @@ export class PersonsService {
             }
         });
         return persons;
+    }
+
+    async getMoviePersons(kinopoiskId: number) {
+        const persons = await this.personRepo.findAll(
+            {include: { 
+                model: Movie, 
+                as: 'movies',
+                where: {
+                    kinopoiskId: {
+                    [Op.eq]: kinopoiskId
+                    }
+                }
+            }
+        });
+        return persons;
+    }
+
+    // async getMovieActors(kinopoiskId: number) {
+    //     const actors = await this.personRepo.findAll({
+    //         include: [
+    //             {
+    //             model: Movie, 
+    //             as: 'movies',
+    //             where: {
+    //                 kinopoiskId: {
+    //                 [Op.eq]: kinopoiskId
+    //                     }
+    //                 }
+    //             },
+    //           {
+    //             model: Profession, 
+    //             as: 'professions',
+    //             where: {
+    //                 profession: {
+    //                 [Op.eq]: 'Актер'
+    //                 }
+    //               }
+    //             }
+             
+    //         ]
+    //     });
+    //     return actors;
+    // }
+
+        async getMovieActors(kinopoiskId: number) {
+        const actors = await this.personRepo.findAll({
+          include:
+            {
+              model: Profession, 
+              as: 'professions',
+              where: {
+                profession: {
+                [Op.eq]: 'Актер'
+                }
+              }
+            }
+        });
+        return actors;
     }
 }

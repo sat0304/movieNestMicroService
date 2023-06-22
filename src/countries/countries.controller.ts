@@ -7,17 +7,22 @@ export class CountriesController {
     constructor( private countryService: CountriesService) {}
 
     @Post()
-    create(@Body() dto: CreateCountryDto) {
-        return this.countryService.createCountry(dto);
+    async create(@Body() dto: CreateCountryDto) {
+        return await this.countryService.createCountry(dto);
     }
 
     @Get('/:countryId')
-    getCountryById(@Param('countryId') countryId: number ) {
-        return this.countryService.getCountryById( countryId );
+    async getCountryById(@Param('countryId') countryId: number ) {
+        return await this.countryService.getCountryById( countryId );
     }
 
     @Get()
-    getAll() {
-        return this.countryService.getAllCountries();
+    async getAll() {
+        return await this.countryService.getAllCountries();
+    }
+
+    @Get()
+    async getMovieCountries(kinopoiskId: number) {
+        return await this.countryService.getMovieCountries(kinopoiskId);
     }
 }

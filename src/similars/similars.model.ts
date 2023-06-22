@@ -19,7 +19,7 @@ export class Similar extends Model<Similar> {
 similarKinopoiskId: number; 
 
 @Column({ type: DataType.STRING(255), allowNull: false })
-name: string;
+movieName: string;
 
 @Column({ type: DataType.STRING(255)})
 nameEng: string;

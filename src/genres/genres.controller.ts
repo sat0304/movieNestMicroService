@@ -8,18 +8,18 @@ export class GenresController {
     constructor( private genreService: GenresService) {}
 
     @Post()
-    create(@Body() dto: CreateGenreDto) {
+    async create(@Body() dto: CreateGenreDto) {
         // console.log(dto.genreEng, dto.genre);
-        return this.genreService.createGenre(dto);
+        return await this.genreService.createGenre(dto);
     }
 
     @Get('/:genreEng')
-    getByName(@Param('genreEng') genreEng: any ) {
-        return this.genreService.getGenreByName( genreEng );
+    async getByName(@Param('genreEng') genreEng: any ) {
+        return await this.genreService.getGenreByName( genreEng );
     }
 
     @Get()
-    getAll() {
-        return this.genreService.getAllGenres();
+    async getAll() {
+        return await this.genreService.getAllGenres();
     }
 }

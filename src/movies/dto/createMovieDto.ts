@@ -2,7 +2,7 @@
 // вынесен в отдельный файл для разделения кода на функциональные подмодули
 export class CreateMovieDto {
     kinopoiskId: number;
-    name: string;
+    movieName: string;
     originalName: string;
     description: string;
     poster: string;

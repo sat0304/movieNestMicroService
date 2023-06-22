@@ -12,9 +12,19 @@ export class MoviesController {
         return await this.movieService.createMovie(dto);
     }
 
-    @Get('/:kinopoiskId')
-    async getByKinopoiskId(@Param('kinopoiskId') kinopoiskId: number  ) {
+    @Get()
+    async getByKinopoiskId( kinopoiskId: number  ) {
         return await this.movieService.getMovieByKinopoiskId( kinopoiskId );
+    }
+
+    @Get()
+    async getByName( movieName: any ) {
+        return await this.movieService.getMovieByName( movieName );
+    }
+
+    @Get()
+    async getByOriginalName( originalName: any  ) {
+        return await this.movieService.getMovieByOriginalName(originalName );
     }
 
     @Get()
@@ -23,56 +33,56 @@ export class MoviesController {
     }
 
     @Get()
-    async getPersonMovies(personKinopoiskId) {
+    async getPersonMovies(personKinopoiskId: number) {
       return await this.movieService.getPersonMovies(personKinopoiskId);
   }
 
-    @Patch('/:kinopoiskId')
+    @Patch()
     async updateActor(
-        @Param('kinopoiskId') kinopoiskId: number,
+        kinopoiskId: number,
         personKinopoiskIds: number[]) {
       return await this.movieService.updateActorInMovie(
         kinopoiskId, 
         personKinopoiskIds);
     }
 
-    @Patch('/:kinopoiskId')
+    @Patch()
     async updatePerson(
-        @Param('kinopoiskId') kinopoiskId: number,
+        kinopoiskId: number,
         personKinopoiskIds: number[]) {
       return await this.movieService.updatePersonInMovie(
         kinopoiskId, 
         personKinopoiskIds);
     }
 
-    @Patch('/:kinopoiskId')
+    @Patch()
     async updateCountry(
-        @Param('kinopoiskId') kinopoiskId: number,
+        kinopoiskId: number,
         countryIds: number[]) {
       return await this.movieService.updateCountryInMovie(
         kinopoiskId, 
         countryIds);
     }
 
-    @Patch('/:kinopoiskId')
+    @Patch()
     async updateGenre(
-        @Param('kinopoiskId') kinopoiskId: number,
+        kinopoiskId: number,
         genres: string[]) {
       return await this.movieService.updateGenreInMovie(
         kinopoiskId, 
         genres);
     }
 
-    @Patch('/:kinopoiskId')
+    @Patch()
     async updateDetail(
-        @Param('kinopoiskId') kinopoiskId: number,
+        kinopoiskId: number,
         details: string[]) {
       return await this.movieService.updateDetailInMovie(
         kinopoiskId, 
         details);
     }
 
-    @Patch('/:similarKinopoiskId')
+    @Patch()
     async updateSimilar(
         kinopoiskId: number,
         kinopoiskIds: number[]) {

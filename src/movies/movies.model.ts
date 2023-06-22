@@ -26,7 +26,7 @@ export class Movie extends Model<Movie> {
     kinopoiskId: number;  
 
     @Column({ type: DataType.STRING(255), allowNull: false })
-    name: string;
+    movieName: string;
 
     @Column({ type: DataType.STRING(255)})
     originalName: string;

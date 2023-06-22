@@ -26,4 +26,14 @@ export class PersonsController {
     async getAllActors() {
         return await this.personService.getAllActors();
     }
+
+    @Get()
+    async getMovieActors(kinopoiskId: number) {
+        return await this.personService.getMovieActors(kinopoiskId);
+    }
+
+    @Get()
+    async getMoviePersons(kinopoiskId: number) {
+        return await this.personService.getMoviePersons(kinopoiskId);
+    }
 }

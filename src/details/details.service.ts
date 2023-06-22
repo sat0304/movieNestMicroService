@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Detail } from './details.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateDetailDto } from './dto/createDetailDto';
+import { Movie } from '../movies/movies.model';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class DetailsService {
@@ -21,6 +23,20 @@ export class DetailsService {
         const details = await this.detailRepo.findAll();
         // const details = await this.detailRepo.findAll({include: { all: true}});
         return details;
+    }
 
+    async getMovieDetails(kinopoiskId: number) {
+        const details = await this.detailRepo.findAll(
+            {include: { 
+                model: Movie, 
+                as: 'movie',
+                where: {
+                    kinopoiskId: {
+                    [Op.eq]: kinopoiskId
+                    }
+                }
+            }
+        });
+        return details;
     }
 }

@@ -19,7 +19,7 @@ export class MoviesService {
         private countryService: CountriesService,
         private genreService: GenresService,
         private detailService: DetailsService,
-        private similarService: SimilarsService,) {}
+        private similarService: SimilarsService) {}
 
     async createMovie( dto: CreateMovieDto ) {
         const movie = await this.movieRepo.create(dto);
@@ -40,10 +40,28 @@ export class MoviesService {
         return movie;
     }
 
+    async getMovieByName( movieName: any ) {
+        const movie = await this.movieRepo.findAll({
+            where: { movieName },
+            include: { all: true }
+            
+        });
+        return movie;
+    }
+
+    async getMovieByOriginalName( originalName: any ) {
+        const movie = await this.movieRepo.findAll({
+            where: { originalName },
+            include: { all: true }
+            
+        });
+        return movie;
+    }
+
     async getAllMovies() {
         const movies = await this.movieRepo.findAll({
             order: [
-                ['name', 'ASC'],
+                ['movieName', 'ASC'],
                 ['year', 'DESC'],
             ]
             });

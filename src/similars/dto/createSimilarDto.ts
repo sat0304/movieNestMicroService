@@ -2,6 +2,6 @@
 // вынесен в отдельный файл для разделения кода на функциональные подмодули
 export class CreateSimilarDto {
     similarKinopoiskId: number;
-    name: string;
+    movieName: string;
     url: string;
 }

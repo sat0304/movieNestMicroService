@@ -7,17 +7,23 @@ export class SimilarsController {
     constructor( private similarService: SimilarsService) {}
 
     @Post()
-    create(@Body() dto: CreateSimilarDto) {
-        return this.similarService.createSimilar(dto);
+    async create(@Body() dto: CreateSimilarDto) {
+        return await this.similarService.createSimilar(dto);
     }
 
     @Get('/:similarKinopoiskId')
-    getSimilarByKinopoiskId(@Param('similarKinopoiskId') similarKinopoiskId: number ) {
-        return this.similarService.getSimilarByKinopoiskId( similarKinopoiskId );
+    async getSimilarByKinopoiskId(@Param('similarKinopoiskId') similarKinopoiskId: number ) {
+        return await this.similarService.getSimilarByKinopoiskId( similarKinopoiskId );
     }
 
     @Get()
-    getAllSimilars() {
-        return this.similarService.getAllSimilars();
+    async getAllSimilars() {
+        return await this.similarService.getAllSimilars();
     }
+
+    @Get()
+    async getMovieSimilars(kinopoiskId: number) {
+        return await this.similarService.getMovieSimilars(kinopoiskId);
+    }
+
 }

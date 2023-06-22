@@ -140,11 +140,11 @@ async putPersonsToDatabase() {
   try {
     for (let i = 0; i < this.parsedData.similarList.length; i++) {
       let similarKinopoiskId = this.parsedData.similarKinopoiskId[i];
-      let name = this.parsedData.similarName[i];
+      let movieName = this.parsedData.similarName[i];
       let url = this.parsedData.similarUrl[i];
       await similarsController.create({
         similarKinopoiskId,
-        name,  
+        movieName,  
         url
       });
     }
@@ -156,7 +156,7 @@ async putPersonsToDatabase() {
 
   async putMoviesToDatabase() {
     try {
-      let name = this.parsedData.movieName;
+      let movieName = this.parsedData.movieName;
       let kinopoiskId = this.parsedData.movieKinopoiskId;
       let originalName = this.parsedData.movieOriginalName;
       let description = this.parsedData.movieDescription;
@@ -168,7 +168,7 @@ async putPersonsToDatabase() {
       let rate = this.parsedData.movieRate;
       await moviesController.create({
         kinopoiskId,
-        name,  
+        movieName,  
         originalName,
         description,
         poster,

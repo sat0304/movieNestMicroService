@@ -7,18 +7,23 @@ export class DetailsController {
     constructor( private detailService: DetailsService) {}
 
     @Post()
-    create(@Body() dto: CreateDetailDto) {
+    async create(@Body() dto: CreateDetailDto) {
         // console.log(dto.detailEng, dto.detail);
-        return this.detailService.createDetail(dto);
+        return await this.detailService.createDetail(dto);
     }
 
     @Get('/:name')
-    getDetailByName(@Param('name') name: any ) {
-        return this.detailService.getDetailByName( name );
+    async getDetailByName(@Param('name') name: any ) {
+        return await this.detailService.getDetailByName( name );
     }
 
     @Get()
-    getAll() {
-        return this.detailService.getAllDetails();
+    async getAll() {
+        return await this.detailService.getAllDetails();
+    }
+
+    @Get()
+    async getMovieDetails(kinopoiskId: number) {
+        return await this.detailService.getMovieDetails(kinopoiskId);
     }
 }

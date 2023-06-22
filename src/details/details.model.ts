@@ -5,9 +5,13 @@ import { Movie } from "../movies/movies.model";
 @Table({tableName: 'detail', createdAt: false, updatedAt: false})
 export class Detail extends Model<Detail> {
 
-    @Column({type: DataType.STRING,
-        unique: true,
+    
+    @Column({type: DataType.INTEGER,
+        autoIncrement: true,
         primaryKey: true })
+    id: number;
+    
+    @Column({type: DataType.STRING})
     name: string;
 
     @Column({ type: DataType.STRING })

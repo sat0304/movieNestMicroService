@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Similar } from './similars.model';
 import { CreateSimilarDto } from './dto/createSimilarDto';
+import { Movie } from '../movies/movies.model';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class SimilarsService {
@@ -23,4 +25,19 @@ async getAllSimilars() {
     // const similars = await this.similarRepo.findAll({include: { all: true}});
     return similars;
   }
+
+  async getMovieSimilars(kinopoiskId: number) {
+    const similars = await this.similarRepo.findAll(
+        {include: { 
+            model: Movie,
+            as: 'similarFilms',
+            where: {
+                kinopoiskId: {
+                [Op.eq]: kinopoiskId
+                }
+            }
+        }
+    });
+    return similars;
+}
 }

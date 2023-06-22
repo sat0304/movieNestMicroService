@@ -68,16 +68,18 @@ export default class MessageHandler{
     const {personKinopoiskId} = data;
 
     switch (routingKey) {
-    case 'getCountries':
+    case 'getMovieCountries':
+      response = await countriesController.getMovieCountries(kinopoiskId);
+      break;
+    case 'getAllCountries':
       response = await countriesController.getAll();
       break;
     case 'getCountry':
       const {countryId} = data;
       response = await countriesController.getCountryById(countryId);
       break;
-    case 'getDetails':
-      await moviesController.getByKinopoiskId(kinopoiskId);
-      response = await detailsController.getAll();
+    case 'getMovieDetails':
+      response = await detailsController.getMovieDetails(kinopoiskId);
       break;
     case 'getDetail':
       await moviesController.getByKinopoiskId(kinopoiskId);
@@ -97,17 +99,29 @@ export default class MessageHandler{
     case 'getMovie':
       response = await moviesController.getByKinopoiskId(kinopoiskId);
       break;
+    case 'getMovieName':
+      const {movieName} = data;
+      const decodedName =  decodeURI(movieName);
+      response = await moviesController.getByName(decodedName);
+      break;
+    case 'getMovieOriginalName':
+      const {originalName} = data;
+      // console.log('This is movie side ', originalName);
+      const decodedOriginalName =  decodeURI(originalName);
+      // console.log('This is movie side decoded ', decodedOriginalName);
+      response = await moviesController.getByOriginalName(decodedOriginalName);
+      break;
     case 'getMovieActors':
-      response = await personsController.getAllActors();
+      response = await personsController.getMovieActors(kinopoiskId);
       break;
     case 'getMoviePersons':
-      response = await personsController.getAllPersons();
+      response = await personsController.getMoviePersons(kinopoiskId);
       break;
     case 'getMoviePerson':
       response = await personsController.getByKinopoiskId(personKinopoiskId);
       break;
-    case 'getSimilars':
-      response = await similarsController.getAllSimilars();
+    case 'getMovieSimilars':
+      response = await similarsController.getMovieSimilars(kinopoiskId);
       break;
     case 'getSimilar':
       const {similarKinopoiskId} = data;
@@ -145,7 +159,7 @@ export default class MessageHandler{
       await loaderToDatabase.updateDetailsToMovie();
       await loaderToDatabase.updateSimilarMovie();
 
-      response = 'The new movie was created';
+      response = data.entityJSON;
       break;
     default: response = 0;
       break;
