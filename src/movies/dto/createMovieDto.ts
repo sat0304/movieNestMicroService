@@ -10,5 +10,5 @@ export class CreateMovieDto {
     year: number;
     movieLength: string;
     ageRating: string;
-    rate: string;
+    rate: number;
 }

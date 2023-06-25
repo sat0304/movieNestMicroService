@@ -36,6 +36,10 @@ export class MoviesController {
     async getPersonMovies(personKinopoiskId: number) {
       return await this.movieService.getPersonMovies(personKinopoiskId);
   }
+    @Get()
+    async getByRate( rateFromRateTo: any ) {
+      return await this.movieService.getMoviesByRate( rateFromRateTo );
+    }
 
     @Patch()
     async updateActor(

@@ -9,6 +9,9 @@ import { DetailsService } from '../details/details.service';
 import { SimilarsService } from '../similars/similars.service';
 import { Person } from '../persons/persons.model';
 import { Op } from 'sequelize';
+import { RateModifier } from '../rateModifier';
+
+const rateModifier = new RateModifier()
 
 @Injectable()
 export class MoviesService {
@@ -81,6 +84,22 @@ export class MoviesService {
                 }
             }
         });
+        return movies;
+    }
+
+    async getMoviesByRate ( rateFromRateTo: any ) {
+        const [rateFrom, rateTo] = await rateModifier.splitRate( rateFromRateTo );
+        console.log('rateFrom, rateTo ', rateFrom, rateTo);
+        const movies = await this.movieRepo.findAll({
+            where: {
+                rate: {
+                  [Op.and]: {
+                    [Op.gt]: Number(rateFrom),
+                    [Op.lt]: Number(rateTo),
+                  }
+            }
+        }
+    });
         return movies;
     }
 

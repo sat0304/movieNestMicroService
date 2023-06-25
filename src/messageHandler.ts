@@ -106,10 +106,15 @@ export default class MessageHandler{
       break;
     case 'getMovieOriginalName':
       const {originalName} = data;
-      // console.log('This is movie side ', originalName);
       const decodedOriginalName =  decodeURI(originalName);
-      // console.log('This is movie side decoded ', decodedOriginalName);
       response = await moviesController.getByOriginalName(decodedOriginalName);
+      break;
+    case 'getMoviesByRate':
+      const {rateFromRateTo} = data;
+      const decodedRateFromRateTo =  decodeURI(rateFromRateTo);
+      console.log('rateFromRateTo ', rateFromRateTo);
+      console.log('decodedRateFromRateTo ', decodedRateFromRateTo);
+      response = await moviesController.getByRate(decodedRateFromRateTo);
       break;
     case 'getMovieActors':
       response = await personsController.getMovieActors(kinopoiskId);

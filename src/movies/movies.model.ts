@@ -49,8 +49,9 @@ export class Movie extends Model<Movie> {
     @Column({ type: DataType.STRING(16)})
     ageRating: string;
 
-    @Column({ type: DataType.STRING(16)})
-    rate: string;
+    @Column({ type: DataType.INTEGER,
+            defaultValue: 0 })
+    rate: number;
 
     @BelongsToMany( () => Person, () => ActorMovie)
     actors: Person[];

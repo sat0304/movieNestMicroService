@@ -17,9 +17,12 @@ import { PersonsService } from "./persons/persons.service";
 import { ProfessionsController } from "./professions/professions.controller";
 import { Profession } from "./professions/professions.model";
 import { ProfessionsService } from "./professions/professions.service";
+import { RateModifier } from "./rateModifier";
 import { SimilarsController } from "./similars/similars.controller";
 import { Similar } from "./similars/similars.model";
 import { SimilarsService } from "./similars/similars.service";
+
+const rateModifier = new RateModifier()
 
 const professionsService = new ProfessionsService(Profession);
 const professionsController = new ProfessionsController(professionsService);
@@ -165,7 +168,7 @@ async putPersonsToDatabase() {
       let year = this.parsedData.movieYear;
       let movieLength = this.parsedData.movieLength;
       let ageRating = this.parsedData.movieAgeRating;
-      let rate = this.parsedData.movieRate;
+      const [rate] = await rateModifier.splitRate(this.parsedData.movieRate);
       await moviesController.create({
         kinopoiskId,
         movieName,  
